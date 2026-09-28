@@ -132,9 +132,10 @@ export function buildDefaultSettings(args: {
     terminalLinkActionPopoverEnabled: true,
     terminalLinkClickBehavior: 'actions',
     terminalUrlMiddleClickBehavior: 'open',
-    openAgentTabsInChatByDefault: false,
-    experimentalNativeChat: false,
-    experimentalStructuredNativeChat: false,
+    // RipperOS is chat-first: bot personas ride on the structured chat runtime.
+    openAgentTabsInChatByDefault: true,
+    experimentalNativeChat: true,
+    experimentalStructuredNativeChat: true,
     nativeChatResumeWorkOnRestart: false,
     nativeChatInheritShellEnvironment: true,
     nativeChatShellEnvironmentVariables: [],

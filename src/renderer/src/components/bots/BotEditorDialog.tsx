@@ -23,6 +23,8 @@ import {
 import { Switch } from '@/components/ui/switch'
 import { Textarea } from '@/components/ui/textarea'
 import { translate } from '@/i18n/i18n'
+import { AgentIcon, getAgentCatalog } from '@/lib/agent-catalog'
+import { useAppStore } from '@/store'
 import { cn } from '@/lib/utils'
 import {
   BOT_AVATAR_PRESETS,
@@ -30,6 +32,7 @@ import {
   BOT_NAME_MAX_LENGTH,
   BOT_ROLE_MAX_LENGTH,
   type Bot,
+  type BotAgent,
   type BotAvatarPreset
 } from '../../../../shared/bot-types'
 import { BotAvatar } from './BotAvatar'
@@ -39,16 +42,22 @@ type Draft = {
   name: string
   role: string
   avatar: BotAvatarPreset
+  agent: BotAgent
   instructions: string
   workspaceId: string
   tokenRipper: boolean
 }
 
-function draftFrom(bot: Bot | null, defaultWorkspaceId: string | null): Draft {
+function draftFrom(
+  bot: Bot | null,
+  defaultWorkspaceId: string | null,
+  defaultAgent: BotAgent
+): Draft {
   return {
     name: bot?.name ?? '',
     role: bot?.role ?? '',
     avatar: bot?.avatar ?? 'orange',
+    agent: bot?.agent ?? defaultAgent,
     instructions: bot?.instructions ?? '',
     workspaceId: bot?.workspaceId ?? defaultWorkspaceId ?? '',
     tokenRipper: bot?.tokenRipper ?? true
@@ -67,14 +76,18 @@ export function BotEditorDialog({
   bot: Bot | null
   workspaceOptions: readonly BotWorkspaceOption[]
 }): React.JSX.Element {
-  const [draft, setDraft] = useState<Draft>(() => draftFrom(bot, null))
+  const configuredAgent = useAppStore((s) => s.settings?.defaultTuiAgent)
+  // Why: 'blank' and unset mean "no agent" in settings; a bot always needs one.
+  const defaultAgent: BotAgent =
+    configuredAgent && configuredAgent !== 'blank' ? configuredAgent : 'claude'
+  const [draft, setDraft] = useState<Draft>(() => draftFrom(bot, null, defaultAgent))
   const [saving, setSaving] = useState(false)
 
   useEffect(() => {
     if (open) {
-      setDraft(draftFrom(bot, workspaceOptions[0]?.workspaceId ?? null))
+      setDraft(draftFrom(bot, workspaceOptions[0]?.workspaceId ?? null, defaultAgent))
     }
-  }, [open, bot, workspaceOptions])
+  }, [open, bot, workspaceOptions, defaultAgent])
 
   const selectedWorkspace = workspaceOptions.find((o) => o.workspaceId === draft.workspaceId)
   const canSave = draft.name.trim().length > 0 && Boolean(selectedWorkspace) && !saving
@@ -90,6 +103,7 @@ export function BotEditorDialog({
         name: draft.name,
         role: draft.role,
         avatar: draft.avatar,
+        agent: draft.agent,
         instructions: draft.instructions,
         workspaceId: selectedWorkspace.workspaceId,
         tokenRipper: draft.tokenRipper
@@ -172,6 +186,39 @@ export function BotEditorDialog({
               placeholder={translate('bots.editor.rolePlaceholder', 'e.g. Software architect')}
               onChange={(event) => setDraft({ ...draft, role: event.target.value })}
             />
+          </div>
+
+          <div className="flex flex-col gap-1.5">
+            <Label>{translate('bots.editor.agent', 'Agent')}</Label>
+            <Select
+              value={draft.agent}
+              onValueChange={(agent) => {
+                const entry = getAgentCatalog().find((candidate) => candidate.id === agent)
+                if (entry) {
+                  setDraft({ ...draft, agent: entry.id })
+                }
+              }}
+            >
+              <SelectTrigger className="w-full">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {getAgentCatalog().map((entry) => (
+                  <SelectItem key={entry.id} value={entry.id}>
+                    <AgentIcon agent={entry.id} size={14} />
+                    {entry.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            {draft.agent === 'claude' ? null : (
+              <p className="text-xs text-muted-foreground">
+                {translate(
+                  'bots.editor.agentPersonaHint',
+                  'Instructions are applied automatically only for Claude for now.'
+                )}
+              </p>
+            )}
           </div>
 
           <div className="flex flex-col gap-1.5">

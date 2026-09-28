@@ -1,3 +1,6 @@
+import { isTuiAgent } from './tui-agent-config'
+import type { TuiAgent } from './tui-agent'
+
 // A Bot is a user-defined persona that owns one workspace; its instructions ride on every
 // Claude session opened there.
 
@@ -8,7 +11,11 @@ export const BOT_INSTRUCTIONS_MAX_LENGTH = 20_000
 export const BOT_AVATAR_PRESETS = ['orange', 'blue', 'green', 'violet', 'rose', 'slate'] as const
 export type BotAvatarPreset = (typeof BOT_AVATAR_PRESETS)[number]
 
-export type BotAgent = 'claude'
+export type BotAgent = TuiAgent
+
+export function normalizeBotAgent(value: unknown): BotAgent {
+  return isTuiAgent(value) ? value : 'claude'
+}
 
 export type Bot = {
   id: string
@@ -31,13 +38,14 @@ export type BotCreateInput = {
   name: string
   role: string
   avatar?: BotAvatarPreset
+  agent?: BotAgent
   instructions?: string
   workspaceId?: string | null
   tokenRipper?: boolean
 }
 
 export type BotUpdateInput = Partial<
-  Pick<Bot, 'name' | 'role' | 'avatar' | 'instructions' | 'workspaceId' | 'tokenRipper'>
+  Pick<Bot, 'name' | 'role' | 'avatar' | 'agent' | 'instructions' | 'workspaceId' | 'tokenRipper'>
 >
 
 export type BotsChangedPayload = { bots: Bot[] }
@@ -88,7 +96,7 @@ export function parseStoredBot(value: unknown): Bot | null {
     role: normalizeBotRole(field('role')),
     avatar: normalizeBotAvatar(field('avatar')),
     instructions: normalizeBotInstructions(field('instructions')),
-    agent: 'claude',
+    agent: normalizeBotAgent(field('agent')),
     workspaceId: typeof workspaceId === 'string' && workspaceId ? workspaceId : null,
     tokenRipper: field('tokenRipper') !== false,
     createdAt: typeof createdAt === 'number' ? createdAt : 0,

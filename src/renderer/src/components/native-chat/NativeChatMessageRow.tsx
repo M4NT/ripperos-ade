@@ -22,6 +22,7 @@ import {
 } from './NativeChatTranscriptChrome'
 import type { NativeChatDiffReveal } from './native-chat-turn-diffs'
 import type { RuntimeFileOperationArgs } from '@/runtime/runtime-file-client'
+import { useNativeChatPresentation } from './native-chat-presentation'
 
 /** One message: its prose first, then a collapsible run folding all of the
  *  turn's tool activity. Monochrome per STYLEGUIDE: user prompts read as a
@@ -77,6 +78,7 @@ export const MessageRow = memo(function MessageRow({
       onScrollMessageToTop(rowRef.current)
     }
   }, [onScrollMessageToTop])
+  const bubbles = useNativeChatPresentation() === 'bubbles'
 
   // Skip rows with nothing renderable so the transcript shows no empty/ghost
   // bubble.
@@ -128,7 +130,14 @@ export const MessageRow = memo(function MessageRow({
       <div ref={rowRef} className="group relative flex flex-col items-end gap-0.5">
         {/* User turns get a distinct muted fill (not the card/canvas color) so
             the prompt reads apart from the assistant's body copy. */}
-        <div className="max-w-[85%] rounded-lg rounded-tr-sm bg-muted px-3.5 py-2.5 text-sm text-foreground">
+        <div
+          className={cn(
+            'max-w-[85%] bg-muted text-sm text-foreground',
+            bubbles
+              ? 'rounded-2xl rounded-br-md px-4 py-2.5'
+              : 'rounded-lg rounded-tr-sm px-3.5 py-2.5'
+          )}
+        >
           {markdown ? (
             <>
               <NativeChatImageAttachments
@@ -182,17 +191,10 @@ export const MessageRow = memo(function MessageRow({
   // Plain assistant prose is the copyable unit; reasoning/system asides stay
   // chrome-free. Controls reveal on hover/keyboard focus and stay visible on touch.
   const showControls = !isReasoning && !isSystem && markdown.length > 0
-
-  return (
-    <div
-      ref={rowRef}
-      className={cn(
-        'group relative max-w-full select-text text-sm leading-relaxed text-foreground',
-        // Reasoning is the agent thinking aloud — quieter, italic, like an aside.
-        isReasoning && 'border-l-2 border-border/60 pl-3 italic text-muted-foreground',
-        isSystem && 'text-xs text-muted-foreground'
-      )}
-    >
+  // Messenger layout: the answer's prose sits in a lifted bubble; tool activity stays below it.
+  const bubbleProse = bubbles && !isReasoning && !isSystem && (markdown.length > 0 || hasImages)
+  const prosePart = (
+    <>
       <NativeChatImageAttachments
         blocks={prose}
         runtimeContext={runtimeContext}
@@ -209,6 +211,26 @@ export const MessageRow = memo(function MessageRow({
           linkifyFilePaths={onLinkClick !== undefined}
         />
       ) : null}
+    </>
+  )
+
+  return (
+    <div
+      ref={rowRef}
+      className={cn(
+        'group relative max-w-full select-text text-sm leading-relaxed text-foreground',
+        // Reasoning is the agent thinking aloud — quieter, italic, like an aside.
+        isReasoning && 'border-l-2 border-border/60 pl-3 italic text-muted-foreground',
+        isSystem && 'text-xs text-muted-foreground'
+      )}
+    >
+      {bubbleProse ? (
+        <div className="w-fit max-w-[85%] rounded-2xl rounded-bl-md border border-border bg-card px-4 py-3">
+          {prosePart}
+        </div>
+      ) : (
+        prosePart
+      )}
       {tools.length > 0 || subagentGroups.length > 0 || backgroundTasks.length > 0 ? (
         <NativeChatToolRun
           blocks={tools}

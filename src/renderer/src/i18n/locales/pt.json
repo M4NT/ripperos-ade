@@ -252,7 +252,9 @@
       "cancel": "Cancelar",
       "save": "Salvar",
       "create": "Criar bot",
-      "saveFailed": "Não foi possível salvar o bot: {{message}}"
+      "saveFailed": "Não foi possível salvar o bot: {{message}}",
+      "agent": "Agente",
+      "agentPersonaHint": "Por enquanto, as instruções são aplicadas automaticamente só no Claude."
     }
   }
 }

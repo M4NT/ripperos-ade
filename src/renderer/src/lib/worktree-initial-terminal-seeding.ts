@@ -28,6 +28,7 @@ import {
   type IssueCommandLaunch
 } from '@/lib/worktree-setup-issue-command-queue'
 import { applyDefaultTerminalTabs } from '@/lib/worktree-default-terminal-tabs'
+import { launchAgentInNewTab } from '@/lib/launch-agent-in-new-tab'
 
 function getSetupRunnerCommandPlatformForLaunch(setup: WorktreeSetupLaunch): 'windows' | 'posix' {
   return getSetupRunnerCommandPlatformForPath(
@@ -216,6 +217,14 @@ export function ensureWorktreeHasInitialTerminal(
     return templatedTabId
   }
 
+  const chatFirstTabId = seedChatFirstSurface(worktreeId, {
+    hasLaunchWork: hasExplicitLaunchWork,
+    activate: opts?.activateCreatedTabs !== false
+  })
+  if (chatFirstTabId) {
+    return chatFirstTabId
+  }
+
   // Why: tag this activation-created tab so its PTY spawn doesn't count as activity and reshuffle the Recent sort.
   // Why: stamp the seeded agent before hooks arrive so native chat and provider chrome can resolve it immediately.
   const launchAgent =
@@ -267,4 +276,24 @@ export function ensureWorktreeHasInitialTerminal(
   )
 
   return terminalTab.id
+}
+
+// RipperOS is chat-first: an empty workspace opens the default agent's chat instead of a bare shell.
+function seedChatFirstSurface(
+  worktreeId: string,
+  input: { hasLaunchWork: boolean; activate: boolean }
+): string | null {
+  const settings = useAppStore.getState().settings
+  const agent = settings?.defaultTuiAgent
+  if (
+    input.hasLaunchWork ||
+    !input.activate ||
+    settings?.openAgentTabsInChatByDefault !== true ||
+    !agent ||
+    agent === 'blank'
+  ) {
+    return null
+  }
+  const result = launchAgentInNewTab({ agent, worktreeId, launchSource: 'tab_bar_quick_launch' })
+  return result && result.surface.kind !== 'host-published' ? result.surface.tabId : null
 }

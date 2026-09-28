@@ -7,7 +7,7 @@ export function useBots(): Bot[] | null {
   const [bots, setBots] = useState<Bot[] | null>(null)
   useEffect(() => {
     // Why: the web client's preload has no bots bridge yet; an empty list beats a crashed page.
-    const api: BotsApi | undefined = window.api.bots
+    const api: BotsApi | undefined = window.api?.bots
     if (!api) {
       setBots([])
       return

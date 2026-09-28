@@ -2,6 +2,7 @@ import { randomUUID } from 'node:crypto'
 import { readFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import {
+  normalizeBotAgent,
   normalizeBotAvatar,
   normalizeBotInstructions,
   normalizeBotName,
@@ -91,7 +92,7 @@ export class BotStore {
       role: normalizeBotRole(input.role),
       avatar: normalizeBotAvatar(input.avatar),
       instructions: normalizeBotInstructions(input.instructions),
-      agent: 'claude',
+      agent: normalizeBotAgent(input.agent),
       workspaceId: input.workspaceId || null,
       tokenRipper: input.tokenRipper !== false,
       createdAt: at,
@@ -115,6 +116,7 @@ export class BotStore {
       name,
       role: patch.role === undefined ? current.role : normalizeBotRole(patch.role),
       avatar: patch.avatar === undefined ? current.avatar : normalizeBotAvatar(patch.avatar),
+      agent: patch.agent === undefined ? current.agent : normalizeBotAgent(patch.agent),
       instructions:
         patch.instructions === undefined
           ? current.instructions

@@ -18475,7 +18475,9 @@
       "cancel": "Cancel",
       "save": "Save",
       "create": "Create bot",
-      "saveFailed": "Could not save the bot: {{message}}"
+      "saveFailed": "Could not save the bot: {{message}}",
+      "agent": "Agent",
+      "agentPersonaHint": "Instructions are applied automatically only for Claude for now."
     }
   }
 }
