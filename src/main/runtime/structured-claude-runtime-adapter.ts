@@ -17,6 +17,7 @@ import {
 } from './agent-session-provider-handle-transition'
 import type { ClaudeManagedAccountGateSettings } from '../native-chat/claude-structured-managed-account-support'
 import type { AgentSessionRecordStore } from './agent-session-record-store'
+import { resolveBotSystemPromptAppend } from '../bots/bot-registry'
 
 export type StructuredClaudeRuntimeAdapterDeps = {
   store: AgentSessionRecordStore
@@ -41,6 +42,8 @@ export type StructuredClaudeRuntimeAdapterDeps = {
   ) => void
   onDispatchSettledLate?: ClaudeStructuredSessionAdapterDeps['onDispatchSettledLate']
   onChildWorkEvidence?: ClaudeStructuredSessionAdapterDeps['onChildWorkEvidence']
+  /** Defaults to the bot that owns the workspace. */
+  resolveSystemPromptAppend?: (workspaceId: string) => string | null
 }
 
 /** The adapter events the host's lifecycle handler consumes, in the host's vocabulary. */
@@ -88,7 +91,8 @@ export function createStructuredClaudeRuntimeAdapter(
         : {}),
       ...(deps.readClaudeManagedAccountGate
         ? { readManagedAccountGate: deps.readClaudeManagedAccountGate }
-        : {})
+        : {}),
+      resolveSystemPromptAppend: deps.resolveSystemPromptAppend ?? resolveBotSystemPromptAppend
     }),
     persistHandle: async ({ sessionId, providerSessionId, leafUuid, fence }) => {
       const currentFence = store.getRecord(sessionId)?.lease.runtimeFence ?? fence

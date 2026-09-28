@@ -133,6 +133,28 @@ describe('claude structured launch resolution', () => {
     expect(first.env).toMatchObject({ [CLAUDE_SESSION_STATE_EVENTS_ENV]: '1' })
   })
 
+  it("appends a bot persona only for the bot's own workspace", async () => {
+    const withPersona = (workspaceId: string) =>
+      createClaudeStructuredLaunchResolver({
+        store: { getRecord: () => record() } as unknown as AgentSessionRecordStore,
+        resolveWorkspacePath: async (id) => `/repos/${id}`,
+        resolveCommand: () => '/usr/local/bin/claude',
+        resolveAuthPolicy: () => ({ stripAuthEnv: false }),
+        hasTranscript: async () => true,
+        resolveSystemPromptAppend: (id) => (id === workspaceId ? 'You are Valt.' : null)
+      })({ identity: IDENTITY })
+
+    expect((await withPersona('workspace-1')).options.systemPrompt).toEqual({
+      type: 'preset',
+      preset: 'claude_code',
+      append: 'You are Valt.'
+    })
+    expect((await withPersona('elsewhere')).options.systemPrompt).toEqual({
+      type: 'preset',
+      preset: 'claude_code'
+    })
+  })
+
   it('resumes the durable chain head by session id and carries its leaf as bookkeeping', async () => {
     const launch = await resolverFor(
       record({

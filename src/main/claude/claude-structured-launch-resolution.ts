@@ -132,6 +132,8 @@ export type ClaudeStructuredLaunchResolverDeps = {
     providerSessionId: string
     claudeConfigDir: string
   }) => Promise<boolean>
+  /** Persona text appended to Claude Code's preset system prompt for a workspace, if any. */
+  resolveSystemPromptAppend?: (workspaceId: string) => string | null
 }
 
 async function claudeTranscriptExists(input: {
@@ -291,10 +293,12 @@ export function createClaudeStructuredLaunchResolver(
         [CLAUDE_SESSION_STATE_EVENTS_ENV]: '1'
       })
     )
+    const append = deps.resolveSystemPromptAppend?.(record.location.workspaceId) || null
     return {
       pathToClaudeCodeExecutable: command,
       options: {
         ...CLAUDE_STRUCTURED_BASE_OPTIONS,
+        ...(append ? { systemPrompt: { type: 'preset', preset: 'claude_code', append } } : {}),
         ...permission,
         extraArgs: { ...CLAUDE_STRUCTURED_BASE_OPTIONS.extraArgs, ...permission.extraArgs },
         // Claude owns where a resumed conversation continues; the stored leaf is Orca's bookkeeping.
