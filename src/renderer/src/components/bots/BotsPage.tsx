@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Bot as BotIcon, MessageSquare, MoreHorizontal, Plus } from 'lucide-react'
+import { Bot as BotIcon, MessageSquare, MoreHorizontal, Plus, Users } from 'lucide-react'
 import { toast } from 'sonner'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -25,6 +25,10 @@ import { useAppStore } from '@/store'
 import type { Bot } from '../../../../shared/bot-types'
 import { BotAvatar } from './BotAvatar'
 import { BotEditorDialog } from './BotEditorDialog'
+import { BotGroupAvatarStack } from './BotGroupAvatarStack'
+import { BotGroupChat } from './BotGroupChat'
+import { BotGroupEditorDialog } from './BotGroupEditorDialog'
+import { useBotGroups } from './bot-group-directory'
 import { listBotProjects, listBotWorkspaceOptions } from './bot-workspace-options'
 import { useBots } from './bot-directory'
 
@@ -114,6 +118,9 @@ export default function BotsPage(): React.JSX.Element {
   const projectGroups = useAppStore((s) => s.projectGroups)
   const [editing, setEditing] = useState<{ bot: Bot | null } | null>(null)
   const [deleting, setDeleting] = useState<Bot | null>(null)
+  const groups = useBotGroups()
+  const [openGroupId, setOpenGroupId] = useState<string | null>(null)
+  const [creatingGroup, setCreatingGroup] = useState(false)
 
   const workspaceOptions = useMemo(
     () => listBotWorkspaceOptions({ repos, worktreesByRepo, folderWorkspaces, projectGroups }),
@@ -145,6 +152,18 @@ export default function BotsPage(): React.JSX.Element {
     }
   }
 
+  const openGroup = openGroupId ? groups?.find((group) => group.id === openGroupId) : null
+  if (openGroup) {
+    return (
+      <BotGroupChat
+        key={openGroup.id}
+        group={openGroup}
+        bots={bots ?? []}
+        onBack={() => setOpenGroupId(null)}
+      />
+    )
+  }
+
   const knownProjectIds = new Set(projects.map((p) => p.id))
   const botsIn = (projectId: string): Bot[] =>
     (bots ?? []).filter((bot) =>
@@ -164,11 +183,48 @@ export default function BotsPage(): React.JSX.Element {
               )}
             </p>
           </div>
-          <Button onClick={() => setEditing({ bot: null })}>
-            <Plus />
-            {translate('bots.page.new', 'New bot')}
-          </Button>
+          <div className="flex shrink-0 items-center gap-2">
+            <Button
+              variant="outline"
+              disabled={(bots ?? []).length < 2}
+              onClick={() => setCreatingGroup(true)}
+            >
+              <Users />
+              {translate('bots.groups.new', 'New group')}
+            </Button>
+            <Button onClick={() => setEditing({ bot: null })}>
+              <Plus />
+              {translate('bots.page.new', 'New bot')}
+            </Button>
+          </div>
         </div>
+
+        {groups && groups.length > 0 ? (
+          <section className="flex flex-col gap-1">
+            <h2 className="px-3 text-[11px] font-semibold tracking-wider text-muted-foreground uppercase">
+              {translate('bots.groups.title', 'Groups')}
+            </h2>
+            {groups.map((group) => {
+              const members = group.botIds.flatMap((id) => (bots ?? []).filter((b) => b.id === id))
+              return (
+                <button
+                  key={group.id}
+                  type="button"
+                  onClick={() => setOpenGroupId(group.id)}
+                  className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-left transition-colors hover:bg-accent"
+                >
+                  <BotGroupAvatarStack bots={members} />
+                  <div className="flex min-w-0 flex-1 flex-col">
+                    <span className="truncate text-sm font-medium">{group.name}</span>
+                    <span className="truncate text-xs text-muted-foreground">
+                      {members.map((member) => member.name).join(', ')}
+                    </span>
+                  </div>
+                </button>
+              )
+            })}
+          </section>
+        ) : null}
 
         {bots !== null && bots.length === 0 ? (
           <div className="flex flex-col items-center gap-3 rounded-xl border border-dashed border-border px-6 py-12 text-center">
@@ -216,6 +272,11 @@ export default function BotsPage(): React.JSX.Element {
           )
         })}
       </div>
+
+      {creatingGroup ? (
+        // Why mounted only while open: each opening starts from an empty form.
+        <BotGroupEditorDialog open onOpenChange={setCreatingGroup} bots={bots ?? []} />
+      ) : null}
 
       <BotEditorDialog
         open={editing !== null}

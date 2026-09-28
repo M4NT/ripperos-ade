@@ -53,6 +53,8 @@ import {
   modelCatalogHostDeps,
   type RuntimeAgentAccountHomeResolver
 } from './structured-agent-model-catalog-wiring'
+import { registerBotGroupRunnerHost } from '../bots/bot-group-claude-runner'
+import { resolveClaudeStructuredInvocation } from '../claude/claude-structured-launch-resolution'
 
 /** Sibling of the journal tree rather than inside it: one file adjudicates every
  *  session's lease, while a journal is per session. */
@@ -160,6 +162,7 @@ export async function stopStructuredAgentSessionRuntime(options?: {
   const pending = installing
   installing = null
   setStructuredAgentSessionHost(null)
+  registerBotGroupRunnerHost(null)
   const outstanding = [...pendingTeardown]
   pendingTeardown.clear()
   const installed = pending ? await pending.catch(() => null) : null
@@ -193,6 +196,17 @@ async function install(deps: StructuredAgentSessionRuntimeDeps): Promise<Install
   }
   const envResolvers = createStructuredAgentEnvironmentResolvers(deps)
   const { resolveCodexEnvironment, resolveClaudeInheritedEnv } = envResolvers
+  // Bot group chats run Claude turns with this runtime's workspace and auth resolution.
+  registerBotGroupRunnerHost({
+    resolveWorkspacePath: deps.resolveWorkspacePath,
+    resolveInvocation: () =>
+      resolveClaudeStructuredInvocation({
+        ...(deps.resolveClaudeCommand ? { resolveCommand: deps.resolveClaudeCommand } : {}),
+        ...(deps.resolveClaudeLaunchEnv ? { resolveEnv: deps.resolveClaudeLaunchEnv } : {}),
+        resolveInheritedEnv: resolveClaudeInheritedEnv,
+        resolveAuthPolicy: deps.resolveClaudeAuthPolicy
+      })
+  })
   const store = await AgentSessionRecordStore.open({
     directory: join(deps.stateDirectory, RECORD_STORE_DIR_NAME),
     hostId: deps.hostId

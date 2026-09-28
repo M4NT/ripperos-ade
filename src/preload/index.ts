@@ -82,6 +82,7 @@ import { cursorAccountsApi } from './api/cursor-accounts-bridge'
 import { sshApi } from './api/ssh-bridge'
 import { automationsApi } from './api/automations-bridge'
 import { botsApi } from './api/bots-bridge'
+import { botGroupsApi } from './api/bot-groups-bridge'
 import { e2eApi } from './api/e2e-bridge'
 import { mobileApi } from './api/mobile-bridge'
 import { agentStatusApi } from './api/agent-status-bridge'
@@ -183,6 +184,7 @@ const api = {
   ssh: sshApi,
   automations: automationsApi,
   bots: botsApi,
+  botGroups: botGroupsApi,
   e2e: e2eApi,
   mobile: mobileApi,
   agentStatus: agentStatusApi,

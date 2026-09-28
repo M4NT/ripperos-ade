@@ -46,7 +46,8 @@ import { registerWorkspacePortHandlers } from '../workspace-ports'
 import { registerLocalhostWorktreeLabelHandlers } from '../localhost-worktree-labels'
 import { registerAutomationHandlers } from '../automations'
 import { registerBotHandlers } from '../bots'
-import { initBotStore } from '../../bots/bot-registry'
+import { initBotGroups, initBotStore } from '../../bots/bot-registry'
+import { broadcastBotGroupActivity, registerBotGroupHandlers } from '../bot-groups'
 import { registerKeybindingHandlers } from '../keybindings'
 import { registerTelemetryHandlers } from '../telemetry'
 import { registerShellHandlers } from '../shell'
@@ -190,6 +191,8 @@ export function registerCoreHandlers(
     registerAutomationHandlers(store, automations)
   }
   registerBotHandlers(initBotStore())
+  const botGroups = initBotGroups(broadcastBotGroupActivity)
+  registerBotGroupHandlers(botGroups.store, botGroups.engine)
   if (keybindings) {
     registerKeybindingHandlers(keybindings, () => {
       void pluginService?.reconcileActivationState()

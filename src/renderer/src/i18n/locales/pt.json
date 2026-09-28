@@ -259,6 +259,24 @@
     "sidebar": {
       "vm": "VM",
       "vmHint": "Este workspace roda numa VM"
+    },
+    "groups": {
+      "new": "Novo grupo",
+      "title": "Grupos",
+      "createTitle": "Novo grupo",
+      "createDescription": "Os bots de um grupo leem a mesma conversa e passam trabalho entre si com @menções.",
+      "name": "Nome",
+      "namePlaceholder": "ex.: Time principal",
+      "members": "Membros",
+      "needBots": "Crie pelo menos dois bots primeiro.",
+      "create": "Criar grupo",
+      "saveFailed": "Não foi possível criar o grupo: {{message}}",
+      "back": "Voltar para os bots",
+      "empty": "Diga oi. Sem menção, cada bot decide se é com ele; @Nome chama um diretamente.",
+      "thinking": "{{names}} pensando…",
+      "placeholder": "Mensagem para {{name}}",
+      "send": "Enviar",
+      "removedBot": "Bot removido"
     }
   }
 }

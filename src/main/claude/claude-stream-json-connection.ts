@@ -34,7 +34,7 @@ export { ClaudeControlRequestError }
  */
 let claudeAgentSdk: Promise<typeof ClaudeAgentSdk> | null = null
 
-function loadClaudeAgentSdk(): Promise<typeof ClaudeAgentSdk> {
+export function loadClaudeAgentSdk(): Promise<typeof ClaudeAgentSdk> {
   claudeAgentSdk ??= import('@anthropic-ai/claude-agent-sdk')
   return claudeAgentSdk
 }
