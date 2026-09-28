@@ -53,6 +53,19 @@ describe('BotStore', () => {
     expect(store.findByWorkspace('other')).toBeNull()
   })
 
+  it('matches sidebar folder keys against the bare ids sessions carry', async () => {
+    const store = new BotStore(file)
+    const bot = await store.create({
+      projectId: 'p1',
+      name: 'Jurídico',
+      role: '',
+      workspaceId: 'folder:f1'
+    })
+    expect(store.findByWorkspace('f1')?.id).toBe(bot.id)
+    expect(store.findByWorkspace('folder:f1')?.id).toBe(bot.id)
+    expect(store.findByWorkspace('f2')).toBeNull()
+  })
+
   it('notifies listeners after a committed change', async () => {
     const store = new BotStore(file)
     const seen: number[] = []

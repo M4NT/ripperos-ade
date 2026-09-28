@@ -6,6 +6,7 @@ import {
   normalizeBotInstructions,
   normalizeBotName,
   normalizeBotRole,
+  botOwnsWorkspace,
   parseStoredBot,
   type Bot,
   type BotCreateInput,
@@ -66,7 +67,7 @@ export class BotStore {
 
   /** The bot that owns a workspace, if any; the first created wins when several claim it. */
   findByWorkspace(workspaceId: string): Bot | null {
-    return this.bots.find((bot) => bot.workspaceId === workspaceId) ?? null
+    return this.bots.find((bot) => botOwnsWorkspace(bot, workspaceId)) ?? null
   }
 
   onChange(listener: (bots: Bot[]) => void): () => void {

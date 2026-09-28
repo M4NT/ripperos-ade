@@ -205,5 +205,54 @@
   },
   "common": {
     "retry": "Tentar de novo"
+  },
+  "bots": {
+    "nav": {
+      "label": "Bots"
+    },
+    "page": {
+      "title": "Bots",
+      "subtitle": "Personas que trabalham nos seus projetos, cada uma no próprio workspace.",
+      "new": "Novo bot",
+      "emptyTitle": "Nenhum bot ainda",
+      "emptyDescription": "Crie um bot, dê a ele um papel e instruções, e converse com ele no workspace dele.",
+      "otherProjects": "Outros"
+    },
+    "row": {
+      "noWorkspace": "Sem workspace",
+      "chat": "Conversar",
+      "more": "Mais ações para {{name}}",
+      "edit": "Editar",
+      "delete": "Excluir"
+    },
+    "chat": {
+      "workspaceMissing": "O workspace de {{name}} não está disponível.",
+      "launchFailed": "Não foi possível iniciar uma conversa com {{name}}."
+    },
+    "delete": {
+      "title": "Excluir {{name}}?",
+      "description": "O bot e as instruções dele são removidos. O workspace e os arquivos continuam intactos."
+    },
+    "editor": {
+      "editTitle": "Editar bot",
+      "createTitle": "Novo bot",
+      "description": "Um bot é uma persona com workspace próprio. As instruções dele valem em toda conversa aberta lá.",
+      "name": "Nome",
+      "namePlaceholder": "ex.: Valt",
+      "color": "Cor",
+      "role": "Papel",
+      "rolePlaceholder": "ex.: Arquiteto de software",
+      "workspace": "Workspace",
+      "noWorkspaces": "Adicione um projeto e crie um workspace primeiro; o bot trabalha dentro de um.",
+      "instructions": "Instruções",
+      "instructionsPlaceholder": "Como este bot deve trabalhar, pelo que ele responde e o que nunca deve fazer.",
+      "instructionsHint": "Enviadas ao Claude em toda conversa. Nunca coloque senhas ou chaves de API aqui.",
+      "tokenRipper": "Modo Ripper",
+      "tokenRipperHint": "Respostas começam pela ação e cortam a enrolação, economizando tokens.",
+      "cancel": "Cancelar",
+      "save": "Salvar",
+      "create": "Criar bot",
+      "saveFailed": "Não foi possível salvar o bot: {{message}}"
+    }
   }
 }

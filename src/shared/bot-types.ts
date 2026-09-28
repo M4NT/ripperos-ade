@@ -96,6 +96,17 @@ export function parseStoredBot(value: unknown): Bot | null {
   }
 }
 
+function bareWorkspaceId(value: string): string {
+  return value.replace(/^(worktree|folder):/, '')
+}
+
+// Why: the renderer stores sidebar keys (`folder:<id>`) while session records carry bare ids.
+export function botOwnsWorkspace(bot: Pick<Bot, 'workspaceId'>, workspaceId: string): boolean {
+  return (
+    bot.workspaceId !== null && bareWorkspaceId(bot.workspaceId) === bareWorkspaceId(workspaceId)
+  )
+}
+
 const TOKEN_RIPPER_DIRECTIVE = [
   'Response style: lead with the action or answer; no preamble, filler or closing offers.',
   'Keep reasoning and planning intact; cut only padding. Say plainly when you are unsure.'

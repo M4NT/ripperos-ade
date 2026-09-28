@@ -3271,7 +3271,7 @@
             "missing": {
               "tui": {
                 "title": "This ZCode build has no terminal UI",
-                "description": "RipperOS's hooks installed correctly \u2014 the zcode on your PATH just cannot open a session. The ZCode desktop app bundles the agent runtime without its terminal UI. Install a zcode that ships the TUI, then run zcode outside RipperOS to confirm."
+                "description": "RipperOS's hooks installed correctly — the zcode on your PATH just cannot open a session. The ZCode desktop app bundles the agent runtime without its terminal UI. Install a zcode that ships the TUI, then run zcode outside RipperOS to confirm."
               }
             }
           },
@@ -18428,5 +18428,54 @@
   },
   "common": {
     "retry": "Retry"
+  },
+  "bots": {
+    "nav": {
+      "label": "Bots"
+    },
+    "page": {
+      "title": "Bots",
+      "subtitle": "Personas that work inside your projects, each in its own workspace.",
+      "new": "New bot",
+      "emptyTitle": "No bots yet",
+      "emptyDescription": "Create a bot, give it a role and instructions, and chat with it in its workspace.",
+      "otherProjects": "Other"
+    },
+    "row": {
+      "noWorkspace": "No workspace",
+      "chat": "Chat",
+      "more": "More actions for {{name}}",
+      "edit": "Edit",
+      "delete": "Delete"
+    },
+    "chat": {
+      "workspaceMissing": "{{name}}'s workspace is not available.",
+      "launchFailed": "Could not start a chat with {{name}}."
+    },
+    "delete": {
+      "title": "Delete {{name}}?",
+      "description": "The bot and its instructions are removed. Its workspace and files stay untouched."
+    },
+    "editor": {
+      "editTitle": "Edit bot",
+      "createTitle": "New bot",
+      "description": "A bot is a persona with its own workspace. Its instructions apply to every chat opened there.",
+      "name": "Name",
+      "namePlaceholder": "e.g. Valt",
+      "color": "Color",
+      "role": "Role",
+      "rolePlaceholder": "e.g. Software architect",
+      "workspace": "Workspace",
+      "noWorkspaces": "Add a project and create a workspace first; the bot works inside one.",
+      "instructions": "Instructions",
+      "instructionsPlaceholder": "How this bot should work, what it owns, what it must never do.",
+      "instructionsHint": "Sent to Claude with every chat. Never put passwords or API keys here.",
+      "tokenRipper": "Ripper mode",
+      "tokenRipperHint": "Answers lead with the action and skip filler, saving tokens.",
+      "cancel": "Cancel",
+      "save": "Save",
+      "create": "Create bot",
+      "saveFailed": "Could not save the bot: {{message}}"
+    }
   }
 }
