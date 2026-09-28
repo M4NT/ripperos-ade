@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import type { Worktree } from '../../../../../../shared/worktree/types'
-import { orderBotOwnedRowsFirst } from './bot-row-order'
+import { insertBotGroupRows, orderBotOwnedRowsFirst } from './bot-row-order'
 import type { GroupHeaderRow, Row, WorktreeRow } from './row-types'
 
 function item(id: string, sectionKey: string, depth = 0): WorktreeRow {
@@ -56,5 +56,31 @@ describe('orderBotOwnedRowsFirst', () => {
   it('leaves rows untouched when no bot owns a workspace', () => {
     const rows: Row[] = [header('a'), item('x', 'a'), item('y', 'a')]
     expect(orderBotOwnedRowsFirst(rows, () => false)).toEqual(rows)
+  })
+})
+
+describe('insertBotGroupRows', () => {
+  const repoHeader = (key: string, repoId: string): GroupHeaderRow => ({
+    ...header(key),
+    // oxlint-disable-next-line typescript/consistent-type-assertions -- SAFETY: insertion reads only the repo id.
+    repo: { id: repoId } as GroupHeaderRow['repo']
+  })
+
+  it('lists groups under their project header and skips collapsed projects', () => {
+    const rows: Row[] = [
+      repoHeader('a', 'r1'),
+      item('x', 'a'),
+      repoHeader('b', 'r2'),
+      item('y', 'b')
+    ]
+    const groups = [
+      { id: 'g1', projectId: 'r1' },
+      { id: 'g2', projectId: 'r2' },
+      { id: 'g3', projectId: 'other' }
+    ]
+    const out = insertBotGroupRows(rows, groups, new Set(['b']))
+    expect(
+      out.map((row) => (row.type === 'bot-group' ? `group:${row.groupId}` : keys([row])[0]))
+    ).toEqual(['#a', 'group:g1', 'x', '#b', 'y'])
   })
 })

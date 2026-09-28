@@ -277,6 +277,11 @@
       "placeholder": "Mensagem para {{name}}",
       "send": "Enviar",
       "removedBot": "Bot removido"
+    },
+    "projectMenu": {
+      "newWorkspace": "Novo workspace",
+      "newBot": "Novo bot",
+      "newGroup": "Novo grupo"
     }
   }
 }

@@ -1,5 +1,6 @@
 import React from 'react'
 import {
+  Bot,
   CircleX,
   Ellipsis,
   Eye,
@@ -9,7 +10,8 @@ import {
   // `Shapes` is lucide-react's own export name; exempted in config/oxlint-anti-slop.json.
   Shapes,
   SlidersHorizontal,
-  Trash2
+  Trash2,
+  Users
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
@@ -25,6 +27,11 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { cn } from '@/lib/utils'
 import { translate } from '@/i18n/i18n'
+import { useAppStore } from '@/store'
+import {
+  requestBotsNavigation,
+  type BotsNavigationRequest
+} from '@/components/bots/bots-navigation'
 import { getRepositoryIconSectionId } from '@/components/settings/repository-settings-targets'
 import type { ProjectGroup } from '../../../../../../shared/project-group-types'
 import type { Repo } from '../../../../../../shared/repo-types'
@@ -219,28 +226,79 @@ export function RepoHeaderCreateWorkspaceButton({
             </Button>
           </span>
         ) : (
-          <Button
-            type="button"
-            variant="ghost"
-            size="icon-xs"
-            className={REPO_HEADER_ACTION_BUTTON_CLASS}
-            data-repo-header-action=""
-            aria-label={createState?.ariaLabel ?? fallbackLabel}
-            onKeyDown={stopRepoHeaderKeyboardToggle}
-            onPointerDown={handleRepoHeaderActionPointerDown}
-            onClick={(event) => {
-              event.preventDefault()
-              event.stopPropagation()
-              onCreateForRepo(repo.id)
-            }}
-          >
-            <Plus className="size-3" />
-          </Button>
+          <span className="inline-flex">
+            <RepoHeaderAddMenu
+              repo={repo}
+              ariaLabel={createState?.ariaLabel ?? fallbackLabel}
+              onCreateForRepo={onCreateForRepo}
+            />
+          </span>
         )}
       </TooltipTrigger>
       <TooltipContent side="bottom" sideOffset={6}>
         {createState?.tooltip ?? fallbackLabel}
       </TooltipContent>
     </Tooltip>
+  )
+}
+
+/** The project "+": a workspace as before, plus a bot or a group chat scoped to this project. */
+function RepoHeaderAddMenu({
+  repo,
+  ariaLabel,
+  onCreateForRepo
+}: {
+  repo: Repo
+  ariaLabel: string
+  onCreateForRepo: (projectId: string) => void
+}): React.JSX.Element {
+  const openBotsPage = useAppStore((s) => s.openBotsPage)
+  const openFromBots = (request: BotsNavigationRequest): void => {
+    requestBotsNavigation(request)
+    openBotsPage()
+  }
+  return (
+    <DropdownMenu modal={false}>
+      <DropdownMenuTrigger asChild>
+        <Button
+          type="button"
+          variant="ghost"
+          size="icon-xs"
+          className={REPO_HEADER_ACTION_BUTTON_CLASS}
+          data-repo-header-action=""
+          aria-label={ariaLabel}
+          onClick={(event) => event.stopPropagation()}
+          onKeyDown={stopRepoHeaderKeyboardToggle}
+          onPointerDown={handleRepoHeaderActionPointerDown}
+        >
+          <Plus className="size-3" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent
+        align="end"
+        side="bottom"
+        sideOffset={6}
+        // Why: Radix portals keep React bubbling through the project header; block menu events from arming row drag/collapse.
+        onPointerDown={stopRepoHeaderMenuEvent}
+        onMouseDown={stopRepoHeaderMenuEvent}
+        onPointerUp={stopRepoHeaderMenuEvent}
+        onMouseUp={stopRepoHeaderMenuEvent}
+        onClick={stopRepoHeaderMenuEvent}
+        onKeyDown={stopRepoHeaderMenuEvent}
+      >
+        <DropdownMenuItem onSelect={() => onCreateForRepo(repo.id)}>
+          <FolderTree className="size-3.5" />
+          {translate('bots.projectMenu.newWorkspace', 'New workspace')}
+        </DropdownMenuItem>
+        <DropdownMenuItem onSelect={() => openFromBots({ kind: 'new-bot', projectId: repo.id })}>
+          <Bot className="size-3.5" />
+          {translate('bots.projectMenu.newBot', 'New bot')}
+        </DropdownMenuItem>
+        <DropdownMenuItem onSelect={() => openFromBots({ kind: 'new-group', projectId: repo.id })}>
+          <Users className="size-3.5" />
+          {translate('bots.projectMenu.newGroup', 'New group')}
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   )
 }

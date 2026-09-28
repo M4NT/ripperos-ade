@@ -1,4 +1,5 @@
-import type { Row } from './row-types'
+import type { BotGroup } from '../../../../../../shared/bot-group-types'
+import type { GroupHeaderRow, Row } from './row-types'
 
 /**
  * Within each section, lift top-level workspaces a bot owns above the rest, keeping each one's
@@ -40,6 +41,43 @@ export function orderBotOwnedRowsFirst(
     }
     for (const block of [...owned, ...rest]) {
       out.push(...block)
+    }
+  }
+  return out
+}
+
+function headerProjectId(row: GroupHeaderRow): string | null {
+  if (row.repo) {
+    return row.repo.id
+  }
+  return row.projectGroup?.id ? `group:${row.projectGroup.id}` : null
+}
+
+/** Lists each project's group chats right under its header, unless the project is collapsed. */
+export function insertBotGroupRows(
+  rows: readonly Row[],
+  groups: readonly Pick<BotGroup, 'id' | 'projectId'>[],
+  collapsedKeys: ReadonlySet<string>
+): Row[] {
+  const out: Row[] = []
+  for (const row of rows) {
+    out.push(row)
+    if (row.type !== 'header' || collapsedKeys.has(row.key)) {
+      continue
+    }
+    const projectId = headerProjectId(row)
+    if (!projectId) {
+      continue
+    }
+    for (const group of groups) {
+      if (group.projectId === projectId) {
+        out.push({
+          type: 'bot-group',
+          key: `bot-group:${group.id}`,
+          groupId: group.id,
+          sectionKey: row.key
+        })
+      }
     }
   }
   return out

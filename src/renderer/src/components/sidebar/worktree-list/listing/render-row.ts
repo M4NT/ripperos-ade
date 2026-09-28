@@ -27,5 +27,8 @@ export function getRenderRowKey(row: RenderRow): string {
   if (row.type === 'folder-workspace') {
     return `folder-workspace:${row.folderWorkspace.id}`
   }
+  if (row.type === 'bot-group') {
+    return `bot-group:${row.groupId}`
+  }
   return `wt:${row.rowKey}`
 }

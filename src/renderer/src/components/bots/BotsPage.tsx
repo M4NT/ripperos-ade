@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Bot as BotIcon, MessageSquare, MoreHorizontal, Plus, Users } from 'lucide-react'
 import { toast } from 'sonner'
@@ -29,6 +29,7 @@ import { BotGroupAvatarStack } from './BotGroupAvatarStack'
 import { BotGroupChat } from './BotGroupChat'
 import { BotGroupEditorDialog } from './BotGroupEditorDialog'
 import { useBotGroups } from './bot-group-directory'
+import { consumeBotsNavigation, usePendingBotsNavigation } from './bots-navigation'
 import { listBotProjects, listBotWorkspaceOptions } from './bot-workspace-options'
 import { useBots } from './bot-directory'
 
@@ -116,11 +117,25 @@ export default function BotsPage(): React.JSX.Element {
   const worktreesByRepo = useAppStore((s) => s.worktreesByRepo)
   const folderWorkspaces = useAppStore((s) => s.folderWorkspaces)
   const projectGroups = useAppStore((s) => s.projectGroups)
-  const [editing, setEditing] = useState<{ bot: Bot | null } | null>(null)
+  const [editing, setEditing] = useState<{ bot: Bot | null; projectId?: string } | null>(null)
   const [deleting, setDeleting] = useState<Bot | null>(null)
   const groups = useBotGroups()
   const [openGroupId, setOpenGroupId] = useState<string | null>(null)
-  const [creatingGroup, setCreatingGroup] = useState(false)
+  const [creatingGroup, setCreatingGroup] = useState<{ projectId: string | null } | null>(null)
+  const pendingNavigation = usePendingBotsNavigation()
+  useEffect(() => {
+    // Why consume here: the sidebar asks, this page is the only surface that owns the dialogs.
+    const request = pendingNavigation ? consumeBotsNavigation() : null
+    if (request?.kind === 'open-group') {
+      setOpenGroupId(request.groupId)
+    } else if (request?.kind === 'new-bot') {
+      setOpenGroupId(null)
+      setEditing({ bot: null, projectId: request.projectId })
+    } else if (request?.kind === 'new-group') {
+      setOpenGroupId(null)
+      setCreatingGroup({ projectId: request.projectId })
+    }
+  }, [pendingNavigation])
 
   const workspaceOptions = useMemo(
     () => listBotWorkspaceOptions({ repos, worktreesByRepo, folderWorkspaces, projectGroups }),
@@ -187,7 +202,7 @@ export default function BotsPage(): React.JSX.Element {
             <Button
               variant="outline"
               disabled={(bots ?? []).length < 2}
-              onClick={() => setCreatingGroup(true)}
+              onClick={() => setCreatingGroup({ projectId: null })}
             >
               <Users />
               {translate('bots.groups.new', 'New group')}
@@ -275,7 +290,12 @@ export default function BotsPage(): React.JSX.Element {
 
       {creatingGroup ? (
         // Why mounted only while open: each opening starts from an empty form.
-        <BotGroupEditorDialog open onOpenChange={setCreatingGroup} bots={bots ?? []} />
+        <BotGroupEditorDialog
+          open
+          onOpenChange={(open) => (open ? null : setCreatingGroup(null))}
+          bots={bots ?? []}
+          projectId={creatingGroup.projectId}
+        />
       ) : null}
 
       <BotEditorDialog
@@ -287,6 +307,7 @@ export default function BotsPage(): React.JSX.Element {
         }}
         bot={editing?.bot ?? null}
         workspaceOptions={workspaceOptions}
+        defaultProjectId={editing?.projectId ?? null}
       />
 
       <Dialog open={deleting !== null} onOpenChange={(open) => (open ? null : setDeleting(null))}>

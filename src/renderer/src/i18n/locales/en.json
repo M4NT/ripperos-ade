@@ -18500,6 +18500,11 @@
       "placeholder": "Message {{name}}",
       "send": "Send",
       "removedBot": "Removed bot"
+    },
+    "projectMenu": {
+      "newWorkspace": "New workspace",
+      "newBot": "New bot",
+      "newGroup": "New group"
     }
   }
 }

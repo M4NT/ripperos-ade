@@ -93,6 +93,14 @@ export type FolderWorkspaceRow = {
   groupDepth: number
 }
 
+/** A bot group chat listed under its project header (RipperOS). */
+export type BotGroupRow = {
+  type: 'bot-group'
+  key: string
+  groupId: string
+  sectionKey: string
+}
+
 /** Minimal shape buildRows needs for an in-flight create. Deliberately not the
  *  full PendingWorktreeCreation: row identity depends only on which creates
  *  exist and their repo, so callers can subscribe on this stable shape and keep
@@ -101,6 +109,7 @@ export type PendingCreationRef = { creationId: string; repoId: string }
 
 export type Row =
   | GroupHeaderRow
+  | BotGroupRow
   | WorktreeRow
   | ImportedWorktreesCardRow
   | NewExternalWorktreesInboxRow

@@ -12,7 +12,8 @@ import type { ExecutionHostId } from '../../../../../../shared/execution-host'
 import { folderWorkspaceKey } from '../../../../../../shared/workspace-scope'
 import { getHostDisplayLabelOverrides } from '../../../../../../shared/host-setting-overrides'
 import { buildRows } from '../grouping/build-rows'
-import { orderBotOwnedRowsFirst } from '../grouping/bot-row-order'
+import { insertBotGroupRows, orderBotOwnedRowsFirst } from '../grouping/bot-row-order'
+import { useBotGroups } from '@/components/bots/bot-group-directory'
 import { useBots } from '@/components/bots/bot-directory'
 import { botOwnsWorkspace } from '../../../../../../shared/bot-types'
 import type { ProjectGroupingModel } from '../grouping/project-grouping'
@@ -145,6 +146,7 @@ export function useSidebarSectionRows(args: SectionRowsArgs) {
   )
 
   const bots = useBots()
+  const botGroups = useBotGroups()
   const baseRows: Row[] = useMemo(
     () =>
       buildRows(
@@ -196,13 +198,16 @@ export function useSidebarSectionRows(args: SectionRowsArgs) {
     ]
   )
   const rows: Row[] = useMemo(() => {
-    if (!bots || bots.length === 0) {
-      return baseRows
-    }
-    return orderBotOwnedRowsFirst(baseRows, (worktreeId) =>
-      bots.some((bot) => botOwnsWorkspace(bot, worktreeId))
-    )
-  }, [baseRows, bots])
+    const ordered =
+      bots && bots.length > 0
+        ? orderBotOwnedRowsFirst(baseRows, (worktreeId) =>
+            bots.some((bot) => botOwnsWorkspace(bot, worktreeId))
+          )
+        : baseRows
+    return botGroups && botGroups.length > 0
+      ? insertBotGroupRows(ordered, botGroups, effectiveCollapsedGroups)
+      : ordered
+  }, [baseRows, bots, botGroups, effectiveCollapsedGroups])
   const orderedHostOptions = useMemo(
     () => orderHostSectionOptions(hostOptions, workspaceHostOrder),
     [hostOptions, workspaceHostOrder]

@@ -20,12 +20,16 @@ import { BotAvatar } from './BotAvatar'
 export function BotGroupEditorDialog({
   open,
   onOpenChange,
-  bots
+  bots,
+  projectId = null
 }: {
   open: boolean
   onOpenChange: (open: boolean) => void
   bots: readonly Bot[]
+  /** Only this project's bots are offered; the group belongs to it. */
+  projectId?: string | null
 }): React.JSX.Element {
+  const candidates = projectId ? bots.filter((bot) => bot.projectId === projectId) : bots
   const [name, setName] = useState('')
   const [selected, setSelected] = useState<string[]>([])
   const [saving, setSaving] = useState(false)
@@ -35,13 +39,17 @@ export function BotGroupEditorDialog({
     setSelected((current) => (checked ? [...current, id] : current.filter((value) => value !== id)))
 
   const save = async (): Promise<void> => {
-    const first = bots.find((bot) => bot.id === selected[0])
+    const first = candidates.find((bot) => bot.id === selected[0])
     if (!canSave || !first) {
       return
     }
     setSaving(true)
     try {
-      await window.api.botGroups.create({ name, projectId: first.projectId, botIds: selected })
+      await window.api.botGroups.create({
+        name,
+        projectId: projectId ?? first.projectId,
+        botIds: selected
+      })
       onOpenChange(false)
     } catch (error) {
       toast.error(
@@ -80,13 +88,13 @@ export function BotGroupEditorDialog({
           </div>
           <div className="flex flex-col gap-1.5">
             <Label>{translate('bots.groups.members', 'Members')}</Label>
-            {bots.length < 2 ? (
+            {candidates.length < 2 ? (
               <p className="text-xs text-muted-foreground">
                 {translate('bots.groups.needBots', 'Create at least two bots first.')}
               </p>
             ) : (
               <div className="flex flex-col gap-0.5">
-                {bots.map((bot) => (
+                {candidates.map((bot) => (
                   <label
                     key={bot.id}
                     className="flex cursor-pointer items-center gap-3 rounded-md px-2 py-1.5 hover:bg-accent"

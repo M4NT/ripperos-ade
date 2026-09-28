@@ -7,6 +7,7 @@ import ImportedWorktreesVisibilityLine from '../../ImportedWorktreesVisibilityLi
 import NewExternalWorktreesInboxLine from '../../NewExternalWorktreesInboxLine'
 import type { ImportedWorktreeCardActionState } from '../../imported-worktrees-card-actions'
 import type { NewExternalWorktreesInboxActionState } from '../../new-external-worktrees-inbox-actions'
+import { BotGroupSidebarRow } from '@/components/bots/BotGroupSidebarRow'
 
 export function canKeepImportedWorktreesHidden(
   row: Extract<Row, { type: 'imported-worktrees-card' }>,
@@ -104,6 +105,22 @@ export function renderNewExternalWorktreesInboxVirtualRow(args: {
         onReview={() => args.onReview(row.repo)}
         onSuppress={() => args.onSuppress(row.repo.id)}
       />
+    </NoticeRowFrame>
+  )
+}
+
+export function renderBotGroupVirtualRow(args: {
+  row: Extract<Row, { type: 'bot-group' }>
+  vItem: VirtualItem
+  measureVirtualRowElement: (element: HTMLDivElement | null) => void
+}): React.JSX.Element {
+  return (
+    <NoticeRowFrame
+      key={args.vItem.key}
+      vItem={args.vItem}
+      measureVirtualRowElement={args.measureVirtualRowElement}
+    >
+      <BotGroupSidebarRow groupId={args.row.groupId} />
     </NoticeRowFrame>
   )
 }

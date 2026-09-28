@@ -68,13 +68,16 @@ export function BotEditorDialog({
   open,
   onOpenChange,
   bot,
-  workspaceOptions
+  workspaceOptions,
+  defaultProjectId = null
 }: {
   open: boolean
   onOpenChange: (open: boolean) => void
   /** Null creates a new bot. */
   bot: Bot | null
   workspaceOptions: readonly BotWorkspaceOption[]
+  /** New bots start in this project's first workspace. */
+  defaultProjectId?: string | null
 }): React.JSX.Element {
   const configuredAgent = useAppStore((s) => s.settings?.defaultTuiAgent)
   // Why: 'blank' and unset mean "no agent" in settings; a bot always needs one.
@@ -85,9 +88,14 @@ export function BotEditorDialog({
 
   useEffect(() => {
     if (open) {
-      setDraft(draftFrom(bot, workspaceOptions[0]?.workspaceId ?? null, defaultAgent))
+      const preferred = defaultProjectId
+        ? workspaceOptions.find((option) => option.projectId === defaultProjectId)
+        : undefined
+      setDraft(
+        draftFrom(bot, (preferred ?? workspaceOptions[0])?.workspaceId ?? null, defaultAgent)
+      )
     }
-  }, [open, bot, workspaceOptions, defaultAgent])
+  }, [open, bot, workspaceOptions, defaultAgent, defaultProjectId])
 
   const selectedWorkspace = workspaceOptions.find((o) => o.workspaceId === draft.workspaceId)
   const canSave = draft.name.trim().length > 0 && Boolean(selectedWorkspace) && !saving

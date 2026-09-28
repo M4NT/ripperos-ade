@@ -21,7 +21,8 @@ import { renderFolderWorkspaceVirtualRow, type FolderWorkspaceRowContext } from 
 import {
   renderImportedWorktreesVirtualRow,
   renderNewExternalWorktreesInboxVirtualRow,
-  renderPendingCreationVirtualRow
+  renderPendingCreationVirtualRow,
+  renderBotGroupVirtualRow
 } from './notice-rows'
 import {
   renderWorktreeItemRow,
@@ -200,6 +201,14 @@ export function renderWorktreeVirtualRow(
 
   if (row.type === 'pending-creation') {
     return renderPendingCreationVirtualRow({
+      row,
+      vItem,
+      measureVirtualRowElement: ctx.measureVirtualRowElement
+    })
+  }
+
+  if (row.type === 'bot-group') {
+    return renderBotGroupVirtualRow({
       row,
       vItem,
       measureVirtualRowElement: ctx.measureVirtualRowElement
