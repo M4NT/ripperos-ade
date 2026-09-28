@@ -7,6 +7,7 @@ import WorktreeContextMenu from './WorktreeContextMenu'
 import { useIsSleepingWorktree } from './use-worktree-sleep-state'
 import { WorktreeCardParentContent } from './worktree-card-parent-content'
 import { buildWorktreeCardPresentation } from './worktree-card-presentation'
+import { BotWorkspaceBanner } from '@/components/bots/BotWorkspaceBanner'
 import type { WorktreeCardController } from './use-worktree-card-controller'
 
 export function WorktreeCardSurface({ card }: { card: WorktreeCardController }): React.JSX.Element {
@@ -99,6 +100,7 @@ export function WorktreeCardSurface({ card }: { card: WorktreeCardController }):
           </div>
         </div>
       )}
+      {affiliateListMode ? null : <BotWorkspaceBanner worktree={worktree} />}
       {isSleeping && newCardStyle && !isDeleting ? (
         // Why a token mix (see [data-worktree-sleeping-dim] in main.css), not opacity:
         // opacity dims toward whatever is painted behind, so the step shrank on lighter

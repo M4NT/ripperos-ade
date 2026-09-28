@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Bot as BotIcon, MessageSquare, MoreHorizontal, Plus } from 'lucide-react'
 import { toast } from 'sonner'
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -68,9 +69,9 @@ function BotRow({
         <div className="flex items-center gap-2">
           <span className="truncate text-sm font-medium">{bot.name}</span>
           {bot.role ? (
-            <span className="truncate rounded-md border border-border px-1.5 py-px text-[11px] text-muted-foreground">
-              {bot.role}
-            </span>
+            <Badge variant="cardMeta" className="min-w-0">
+              <span className="truncate">{bot.role}</span>
+            </Badge>
           ) : null}
         </div>
         <span className="truncate text-xs text-muted-foreground">

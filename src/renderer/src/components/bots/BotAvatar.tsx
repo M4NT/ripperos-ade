@@ -11,6 +11,7 @@ const AVATAR_SURFACE: Record<BotAvatarPreset, string> = {
 }
 
 const SIZE = {
+  xs: 'size-4 text-[9px]',
   sm: 'size-6 text-[11px]',
   md: 'size-9 text-sm',
   lg: 'size-12 text-base'
