@@ -2,7 +2,7 @@ import { useAppStore } from '@/store'
 import { botOwnsWorkspace } from '../../../../shared/bot-types'
 import { getActiveSidebarWorkspaceId } from '../../../../shared/workspace-scope'
 import { BotAvatar } from './BotAvatar'
-import { useBots } from './use-bots'
+import { useBots } from './bot-directory'
 
 /** Floating name pill over a chat whose workspace belongs to a bot. */
 export function BotChatHeaderPill(): React.JSX.Element | null {

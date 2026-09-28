@@ -18478,6 +18478,10 @@
       "saveFailed": "Could not save the bot: {{message}}",
       "agent": "Agent",
       "agentPersonaHint": "Instructions are applied automatically only for Claude for now."
+    },
+    "sidebar": {
+      "vm": "VM",
+      "vmHint": "This workspace runs on a VM"
     }
   }
 }

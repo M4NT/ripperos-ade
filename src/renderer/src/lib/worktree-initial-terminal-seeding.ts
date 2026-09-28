@@ -28,7 +28,6 @@ import {
   type IssueCommandLaunch
 } from '@/lib/worktree-setup-issue-command-queue'
 import { applyDefaultTerminalTabs } from '@/lib/worktree-default-terminal-tabs'
-import { launchAgentInNewTab } from '@/lib/launch-agent-in-new-tab'
 
 function getSetupRunnerCommandPlatformForLaunch(setup: WorktreeSetupLaunch): 'windows' | 'posix' {
   return getSetupRunnerCommandPlatformForPath(
@@ -217,12 +216,13 @@ export function ensureWorktreeHasInitialTerminal(
     return templatedTabId
   }
 
-  const chatFirstTabId = seedChatFirstSurface(worktreeId, {
-    hasLaunchWork: hasExplicitLaunchWork,
-    activate: opts?.activateCreatedTabs !== false
-  })
-  if (chatFirstTabId) {
-    return chatFirstTabId
+  if (
+    seedChatFirstSurface(worktreeId, {
+      hasLaunchWork: hasExplicitLaunchWork,
+      activate: opts?.activateCreatedTabs !== false
+    })
+  ) {
+    return null
   }
 
   // Why: tag this activation-created tab so its PTY spawn doesn't count as activity and reshuffle the Recent sort.
@@ -279,10 +279,11 @@ export function ensureWorktreeHasInitialTerminal(
 }
 
 // RipperOS is chat-first: an empty workspace opens the default agent's chat instead of a bare shell.
+// Returns whether a chat launch was started; the tab appears once the launcher module loads.
 function seedChatFirstSurface(
   worktreeId: string,
   input: { hasLaunchWork: boolean; activate: boolean }
-): string | null {
+): boolean {
   const settings = useAppStore.getState().settings
   const agent = settings?.defaultTuiAgent
   if (
@@ -292,8 +293,13 @@ function seedChatFirstSurface(
     !agent ||
     agent === 'blank'
   ) {
-    return null
+    return false
   }
-  const result = launchAgentInNewTab({ agent, worktreeId, launchSource: 'tab_bar_quick_launch' })
-  return result && result.surface.kind !== 'host-published' ? result.surface.tabId : null
+  // Why dynamic: a static import drags the agent catalog and i18n into every activation importer.
+  void import('@/lib/launch-agent-in-new-tab').then(({ launchAgentInNewTab }) => {
+    if (!launchAgentInNewTab({ agent, worktreeId, launchSource: 'tab_bar_quick_launch' })) {
+      console.warn('[chat-first] could not launch the default agent chat for', worktreeId)
+    }
+  })
+  return true
 }

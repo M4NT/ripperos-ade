@@ -25,7 +25,7 @@ import type { Bot } from '../../../../shared/bot-types'
 import { BotAvatar } from './BotAvatar'
 import { BotEditorDialog } from './BotEditorDialog'
 import { listBotProjects, listBotWorkspaceOptions } from './bot-workspace-options'
-import { useBots } from './use-bots'
+import { useBots } from './bot-directory'
 
 function openBotChat(bot: Bot): void {
   if (!bot.workspaceId || activateAndRevealWorkspace(bot.workspaceId) === false) {

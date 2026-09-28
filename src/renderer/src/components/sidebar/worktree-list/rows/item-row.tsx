@@ -8,6 +8,7 @@ import {
   getWorktreeHostIdentity
 } from '../../../../../../shared/worktree/host-qualified-identity'
 import WorktreeCard, { type ActiveSurfaceVariant } from '../../WorktreeCard'
+import { BotWorkspaceBanner } from '@/components/bots/BotWorkspaceBanner'
 import { PINNED_GROUP_KEY } from '../grouping/group-keys'
 import type { WorktreeGroupBy } from '../grouping/row-types'
 import {
@@ -185,6 +186,13 @@ export function renderWorktreeItemRow(
         paddingLeft: surfaceInset > 0 ? `${surfaceInset}px` : undefined
       }}
     >
+      {nested ? null : (
+        <BotWorkspaceBanner
+          worktree={itemRow.worktree}
+          indent={cardContentIndent}
+          onActivate={() => ctx.onImmediateActivate(itemRow.worktree.id, itemRow.rowKey)}
+        />
+      )}
       <WorktreeCard
         worktree={itemRow.worktree}
         repo={itemRow.repo}

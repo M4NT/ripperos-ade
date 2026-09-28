@@ -12,6 +12,9 @@ import type { ExecutionHostId } from '../../../../../../shared/execution-host'
 import { folderWorkspaceKey } from '../../../../../../shared/workspace-scope'
 import { getHostDisplayLabelOverrides } from '../../../../../../shared/host-setting-overrides'
 import { buildRows } from '../grouping/build-rows'
+import { orderBotOwnedRowsFirst } from '../grouping/bot-row-order'
+import { useBots } from '@/components/bots/bot-directory'
+import { botOwnsWorkspace } from '../../../../../../shared/bot-types'
 import type { ProjectGroupingModel } from '../grouping/project-grouping'
 import type { PinnedWorktreeDisplayPolicy, Row, WorktreeGroupBy } from '../grouping/row-types'
 import { getLogicalRepoOrderRankById } from '../../project-header-drop'
@@ -141,7 +144,8 @@ export function useSidebarSectionRows(args: SectionRowsArgs) {
     [hostOptions]
   )
 
-  const rows: Row[] = useMemo(
+  const bots = useBots()
+  const baseRows: Row[] = useMemo(
     () =>
       buildRows(
         args.groupBy,
@@ -191,6 +195,14 @@ export function useSidebarSectionRows(args: SectionRowsArgs) {
       args.pinnedDisplayPolicy
     ]
   )
+  const rows: Row[] = useMemo(() => {
+    if (!bots || bots.length === 0) {
+      return baseRows
+    }
+    return orderBotOwnedRowsFirst(baseRows, (worktreeId) =>
+      bots.some((bot) => botOwnsWorkspace(bot, worktreeId))
+    )
+  }, [baseRows, bots])
   const orderedHostOptions = useMemo(
     () => orderHostSectionOptions(hostOptions, workspaceHostOrder),
     [hostOptions, workspaceHostOrder]

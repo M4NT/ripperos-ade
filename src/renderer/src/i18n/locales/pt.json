@@ -255,6 +255,10 @@
       "saveFailed": "Não foi possível salvar o bot: {{message}}",
       "agent": "Agente",
       "agentPersonaHint": "Por enquanto, as instruções são aplicadas automaticamente só no Claude."
+    },
+    "sidebar": {
+      "vm": "VM",
+      "vmHint": "Este workspace roda numa VM"
     }
   }
 }
