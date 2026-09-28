@@ -159,12 +159,12 @@ export function RuntimeServerRow({
               {remoteUpdate.currentVersion
                 ? translate(
                     'auto.components.settings.RuntimeEnvironmentsPane.orcaVersion',
-                    'Orca v{{value0}}',
+                    'RipperOS v{{value0}}',
                     { value0: remoteUpdate.currentVersion }
                   )
                 : translate(
                     'auto.components.settings.RuntimeEnvironmentsPane.versionUnavailable',
-                    'Orca version unavailable'
+                    'RipperOS version unavailable'
                   )}
             </span>
             <RemoteServerUpdateStatus entry={remoteUpdate} compact />

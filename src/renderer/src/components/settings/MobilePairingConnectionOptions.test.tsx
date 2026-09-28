@@ -79,12 +79,12 @@ describe('MobilePairingConnectionOptions', () => {
 
   afterEach(() => cleanup())
 
-  it('shows Sign in directly under Orca Relay, above LAN', async () => {
+  it('shows Sign in directly under RipperOS Relay, above LAN', async () => {
     const user = userEvent.setup()
     const onChange = vi.fn()
     render(<MobilePairingConnectionOptions value="automatic" onChange={onChange} />)
 
-    const relay = screen.getByRole('radio', { name: /Orca Relay/i })
+    const relay = screen.getByRole('radio', { name: /RipperOS Relay/i })
     const lan = screen.getByRole('radio', { name: /^LAN\b/i })
     const signInPanel = screen.getByTestId('anywhere-sign-in-panel')
     const signIn = screen.getByRole('button', { name: 'Sign in for Relay' })
@@ -131,7 +131,7 @@ describe('MobilePairingConnectionOptions', () => {
     // No Relay endpoint to sign into — the Sign in CTA must not appear.
     expect(screen.queryByTestId('anywhere-sign-in-panel')).toBeNull()
     expect(screen.queryByRole('button', { name: /Sign in/i })).toBeNull()
-    const relay = screen.getByRole('radio', { name: /Orca Relay/i })
+    const relay = screen.getByRole('radio', { name: /RipperOS Relay/i })
     expect(relay).toHaveTextContent('Unavailable')
     expect(relay).toHaveTextContent(/isn’t available in this build/i)
   })
@@ -151,7 +151,7 @@ describe('MobilePairingConnectionOptions', () => {
     render(<MobilePairingConnectionOptions value="local-only" onChange={onChange} />)
 
     // Availability follows the build, not the selected path.
-    const relay = screen.getByRole('radio', { name: /Orca Relay/i })
+    const relay = screen.getByRole('radio', { name: /RipperOS Relay/i })
     expect(relay).toHaveTextContent('Unavailable')
     expect(relay).toHaveTextContent(/isn’t available in this build/i)
     expect(relay).toHaveAttribute('aria-disabled', 'true')
@@ -169,7 +169,7 @@ describe('MobilePairingConnectionOptions', () => {
     const onChange = vi.fn()
     render(<MobilePairingConnectionOptions value="automatic" onChange={onChange} />)
 
-    screen.getByRole('radio', { name: /Orca Relay/i }).focus()
+    screen.getByRole('radio', { name: /RipperOS Relay/i }).focus()
     await user.keyboard('{ArrowDown}')
     expect(onChange).toHaveBeenCalledWith('local-only')
   })
@@ -198,7 +198,7 @@ describe('MobilePairingConnectionOptions', () => {
       )
     ).toBeVisible()
 
-    await user.click(screen.getByRole('radio', { name: /Orca Relay/i }))
+    await user.click(screen.getByRole('radio', { name: /RipperOS Relay/i }))
     expect(onChange).toHaveBeenCalledWith('automatic')
   })
 
@@ -212,7 +212,7 @@ describe('MobilePairingConnectionOptions', () => {
     expect(screen.getByTestId('anywhere-sign-in-panel')).toBeVisible()
   })
 
-  it('shows relay status when signed in on Orca Relay', async () => {
+  it('shows relay status when signed in on RipperOS Relay', async () => {
     mocks.state = {
       orcaProfileAuthStatus: {
         activeProfileId: 'profile-1',
@@ -285,7 +285,7 @@ describe('MobilePairingConnectionOptions', () => {
     )
 
     expect(screen.getByText('Retrying')).toBeVisible()
-    const relay = screen.getByRole('radio', { name: /Orca Relay/i })
+    const relay = screen.getByRole('radio', { name: /RipperOS Relay/i })
     const lan = screen.getByRole('radio', { name: /^LAN\b/i })
     expect(relay).toHaveAttribute('aria-disabled', 'true')
     expect(lan).toHaveAttribute('aria-disabled', 'false')

@@ -31,7 +31,7 @@ export function createCursorAccountsApi(): NonNullable<Partial<PreloadApi>['curs
         tokenFresh: false,
         error: translate(
           'auto.components.web.preloadApi.cursorAccounts.hostOnly',
-          'Cursor sign-in details are only readable on the computer running Orca.'
+          'Cursor sign-in details are only readable on the computer running RipperOS.'
         )
       })
   }

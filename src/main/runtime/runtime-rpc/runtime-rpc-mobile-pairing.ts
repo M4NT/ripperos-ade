@@ -150,7 +150,7 @@ export class RuntimeRpcMobilePairing extends RuntimeRpcPairing {
       return refuseAutomaticWithoutRelay({
         code: 'relay_provider_unavailable',
         stage: 'provider_missing',
-        message: 'Orca Relay is not available on this desktop'
+        message: 'RipperOS Relay is not available on this desktop'
       })
     }
     const device = this.deviceRegistry?.getDevice(direct.deviceId)

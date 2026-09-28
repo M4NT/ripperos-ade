@@ -148,7 +148,7 @@ export function StarNagCard(): React.JSX.Element | null {
             <div className="flex items-center gap-2">
               <Star className="size-4 fill-amber-400/60 text-amber-400/80" />
               <h3 id="star-nag-heading" className="text-sm font-semibold">
-                {translate('auto.components.StarNagCard.5f6df21046', 'Enjoying Orca?')}
+                {translate('auto.components.StarNagCard.5f6df21046', 'Enjoying RipperOS?')}
               </h3>
             </div>
             <Button
@@ -166,7 +166,7 @@ export function StarNagCard(): React.JSX.Element | null {
           <p className="text-sm text-muted-foreground">
             {translate(
               'auto.components.StarNagCard.30c36231c1',
-              'Orca is open source. If it helped today, a GitHub star helps other developers find it.'
+              'RipperOS is open source. If it helped today, a GitHub star helps other developers find it.'
             )}
           </p>
 

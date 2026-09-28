@@ -49,7 +49,7 @@ export function buildRemoteSettingsSections(
       id: 'servers',
       title: translate(
         'auto.hooks.useSettingsNavigationMetadata.de0c2907a1',
-        'Remote Orca Servers'
+        'Remote RipperOS Servers'
       ),
       description: isWebClient
         ? 'Connect this browser to a saved Orca server.'
@@ -144,7 +144,7 @@ export function buildRemoteSettingsSections(
             title: translate('auto.hooks.useSettingsNavigationMetadata.pluginsTitle', 'Plugins'),
             description: translate(
               'auto.hooks.useSettingsNavigationMetadata.pluginsDescription',
-              'Install and manage experimental Orca plugins.'
+              'Install and manage experimental RipperOS plugins.'
             ),
             icon: Blocks,
             searchEntries: getPluginsPaneSearchEntries(),

@@ -112,7 +112,10 @@ export function SessionHistoryServerRow({
         dimmed
         checked={false}
         disabled
-        status={translate('sessionHistory.settings.serverTooOld', 'Needs a newer version of Orca.')}
+        status={translate(
+          'sessionHistory.settings.serverTooOld',
+          'Needs a newer version of RipperOS.'
+        )}
         action={{
           label: translate('sessionHistory.settings.updateServer', 'Update server'),
           onClick: openServerSettings

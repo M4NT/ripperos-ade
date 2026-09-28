@@ -30,13 +30,13 @@ export function aiVaultSessionDeleteBlockedReason(
   if (isSyntheticAiVaultSessionPath(session.filePath)) {
     return translate(
       'auto.components.right.sidebar.AiVaultSessionRow.deleteReasonSyntheticPath',
-      "This session can't be deleted from Orca."
+      "This session can't be deleted from RipperOS."
     )
   }
   if (!isAiVaultDeletableAgent(session.agent)) {
     return translate(
       'auto.components.right.sidebar.AiVaultSessionRow.deleteReasonUnsupportedAgent',
-      "{{value0}} sessions can't be deleted from Orca.",
+      "{{value0}} sessions can't be deleted from RipperOS.",
       { value0: agentLabel(session.agent) }
     )
   }

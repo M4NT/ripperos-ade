@@ -155,7 +155,7 @@
       },
       "menuBarIcon": {
         "title": "Show Menu Bar Icon",
-        "description": "Keep an RipperOS shortcut and activity indicator in the macOS menu bar.",
+        "description": "Keep a RipperOS shortcut and activity indicator in the macOS menu bar.",
         "keyword": {
           "menuBar": "menu bar",
           "statusItem": "status item",
@@ -358,7 +358,7 @@
         "27393856e4": "orca://pair?code=...",
         "7a566540de": "Pairing URL or code",
         "cb4d287238": "Server name",
-        "3affe7de3a": "Paste a pairing URL from an RipperOS server that this browser can reach.",
+        "3affe7de3a": "Paste a pairing URL from a RipperOS server that this browser can reach.",
         "e3bcd082ac": "Connect to RipperOS",
         "mobileScopeRejected": "This QR code grants limited (mobile) access. To use the full web app, open the browser access link from Settings → Runtime Environments → Share this RipperOS server → New Link."
       },
@@ -630,7 +630,7 @@
         }
       },
       "remotePairingCopy": {
-        "invalidInput": "Enter an RipperOS access link or bare pairing code.",
+        "invalidInput": "Enter a RipperOS access link or bare pairing code.",
         "mobileOnly": "This link grants mobile-only access. Generate a link for another RipperOS client.",
         "invalidDestination": "This access link contains an invalid destination.",
         "unsupportedDestination": "This access link contains an unsupported destination.",
@@ -2328,12 +2328,12 @@
         "loadPageUnreachable": "Page {{value0}} is beyond what GitHub search can return.",
         "loadPageFailed": "Page {{value0}} could not be loaded from GitHub.",
         "loadPageNoMoreResults": "No more results on page {{value0}}.",
-        "linearHasWorktreeLoadFailed": "Unable to load Linear issues linked to an RipperOS workspace.",
-        "linearHasWorktreePartialLoadFailed": "Some Linear issues linked to an RipperOS workspace could not be loaded. Refresh to try again.",
-        "linearHasWorktreeSearchPlaceholder": "Filter issues linked to an RipperOS workspace...",
+        "linearHasWorktreeLoadFailed": "Unable to load Linear issues linked to a RipperOS workspace.",
+        "linearHasWorktreePartialLoadFailed": "Some Linear issues linked to a RipperOS workspace could not be loaded. Refresh to try again.",
+        "linearHasWorktreeSearchPlaceholder": "Filter issues linked to a RipperOS workspace...",
         "linearModeHasWorktree": "Has Workspace",
-        "linearModeHasWorktreeTooltip": "Linear tickets linked to an RipperOS workspace",
-        "linearEmptyHasWorktree": "No Linear tickets are linked to an RipperOS workspace yet. Start work from a Linear issue to see it here.",
+        "linearModeHasWorktreeTooltip": "Linear tickets linked to a RipperOS workspace",
+        "linearEmptyHasWorktree": "No Linear tickets are linked to a RipperOS workspace yet. Start work from a Linear issue to see it here.",
         "linearOpenAttachedWorkspace": "Open workspace attached to {{value0}}",
         "linearWorktreesColumn": "Workspaces"
       },
@@ -4618,7 +4618,7 @@
         },
         "SkillShareDialog": {
           "reconnect": "Reconnect your RipperOS account before sharing.",
-          "unconfigured": "Connect an RipperOS Cloud account before sharing.",
+          "unconfigured": "Connect a RipperOS Cloud account before sharing.",
           "prepareFailed": "Could not prepare this skill for sharing.",
           "peopleRequired": "Select at least one teammate.",
           "publishCancelled": "Upload cancelled. The prepared copy is still available to retry.",
@@ -4939,7 +4939,7 @@
           "reconnectBeforeInstalling": "Reconnect your RipperOS account before installing.",
           "bundleVerificationFailed": "Installation failed before RipperOS could verify the requested bundle.",
           "destinationAlreadyFinished": "The destination had already finished this installation.",
-          "enterShareLink": "Enter an RipperOS skill share link.",
+          "enterShareLink": "Enter a RipperOS skill share link.",
           "shareUnavailable": "This share is unavailable. The link may be invalid, expired, or revoked.",
           "requestedVersionVerificationFailed": "Installation failed before RipperOS could verify the requested version.",
           "versionVerificationFailed": "RipperOS could not verify the requested version.",
@@ -5131,7 +5131,7 @@
           "addSshHost": "Add SSH host",
           "addRemoteServer": "Add remote server",
           "addRemoteHost": "Add remote host",
-          "addRemoteHostTooltip": "Choose SSH for a machine you can log into, or remote server for an RipperOS server.",
+          "addRemoteHostTooltip": "Choose SSH for a machine you can log into, or remote server for a RipperOS server.",
           "addSshHostDetail": "Use an existing machine over SSH.",
           "addRemoteServerDetail": "Pair with RipperOS running on another computer.",
           "addRemoteHostDetail": "SSH host or RipperOS server"
@@ -11287,7 +11287,7 @@
           "copyError": "Could not copy the prompt.",
           "skillDescription": "Sets up, builds, authenticates, and validates repo-owned environment recipes.",
           "whatTitle": "What the skill does, with you",
-          "whatScaffold": "Writes the recipe & scripts for your provider — connected over an RipperOS server or SSH.",
+          "whatScaffold": "Writes the recipe & scripts for your provider — connected over a RipperOS server or SSH.",
           "whatBuild": "Builds a reusable base image and signs your agent in.",
           "whatValidate": "Validates it so you can create a workspace on it.",
           "promptHint": "In any workspace, ask your agent:",
@@ -11931,7 +11931,7 @@
           "permissionDenied": "Microphone access is blocked. Grant it in your system settings, then try again."
         },
         "TerminalTccAttributionNotice": {
-          "body": "The terminal daemon was started by an RipperOS install that no longer exists, so macOS can’t attribute its commands to RipperOS — Accessibility and Automation grants are silently ignored (osascript fails with error -25211). Restarting the daemon fixes this; running terminal sessions will close.",
+          "body": "The terminal daemon was started by a RipperOS install that no longer exists, so macOS can’t attribute its commands to RipperOS — Accessibility and Automation grants are silently ignored (osascript fails with error -25211). Restarting the daemon fixes this; running terminal sessions will close.",
           "openManageSessions": "Open Manage Sessions",
           "title": "macOS permission grants aren’t reaching terminals"
         },
@@ -18357,7 +18357,7 @@
       "consent": "Enable full-text search? RipperOS builds an index on this computer from local agent transcripts, including full conversations and up to 3,072 characters per tool output. Content is not redacted. Authenticated paired clients can search it.",
       "remoteDisabled": "Search is disabled on this computer. Enable transcript indexing on that computer to search its sessions.",
       "notReady": "The search index is not ready yet. Try again shortly.",
-      "noService": "Search is unavailable on this computer. It may need an RipperOS update or a runtime with search support.",
+      "noService": "Search is unavailable on this computer. It may need a RipperOS update or a runtime with search support.",
       "failed": "Could not search this computer. Check its connection and try again.",
       "changed": "The index changed while searching. Search again for current results.",
       "truncated": "Some results or matching text were limited. Narrow your search for more precise results.",

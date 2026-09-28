@@ -327,7 +327,7 @@ export function describeInstallDirAclPoison(): InstallDirAclPoisonDiagnosis | nu
       ? 'Orca is repairing the permissions now.'
       : 'Orca could not repair them, which usually means the folder needs an administrator.'
   return {
-    detail: `${CAUSE} ${status}\n\nRun these in an Administrator Command Prompt, then relaunch Orca:\n\n${commands.join('\n')}`,
+    detail: `${CAUSE} ${status}\n\nRun these in an Administrator Command Prompt, then relaunch RipperOS:\n\n${commands.join('\n')}`,
     commands
   }
 }

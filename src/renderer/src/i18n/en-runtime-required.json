@@ -1838,7 +1838,7 @@
           "sshPersistenceDefault": "Remote terminals on this host stay alive until you end them or reset the relay."
         },
         "AddRepoHostSelector": {
-          "addRemoteHostTooltip": "Choose SSH for a machine you can log into, or remote server for an RipperOS server.",
+          "addRemoteHostTooltip": "Choose SSH for a machine you can log into, or remote server for a RipperOS server.",
           "local": "Local",
           "runtime": "Server",
           "ssh": "SSH"

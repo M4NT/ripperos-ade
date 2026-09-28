@@ -44,7 +44,7 @@ export function probeNotificationDelivery(): Promise<NotificationDeliveryProbeRe
   permissionDialogTriggeredThisSession = true
 
   const probe = new Notification({
-    title: 'Orca notifications are on',
+    title: 'RipperOS notifications are on',
     body: 'Orca will alert you when agents finish or terminals need attention.',
     silent: true
   })

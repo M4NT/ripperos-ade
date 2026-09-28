@@ -61,8 +61,8 @@ describe('registerNotificationHandlers', () => {
       const handler = getDispatchHandler()
       expect(await handler({}, { source: 'test' })).toEqual({ delivered: true })
       expect(notificationCtorMock).toHaveBeenCalledWith({
-        title: 'Orca notifications are on',
-        body: 'This is a test notification from Orca.',
+        title: 'RipperOS notifications are on',
+        body: 'This is a test notification from RipperOS.',
         sound: 'default'
       })
     } finally {
@@ -89,8 +89,8 @@ describe('registerNotificationHandlers', () => {
       const handler = getDispatchHandler()
       expect(await handler({}, { source: 'test' })).toEqual({ delivered: true })
       expect(notificationCtorMock).toHaveBeenCalledWith({
-        title: 'Orca notifications are on',
-        body: 'This is a test notification from Orca.',
+        title: 'RipperOS notifications are on',
+        body: 'This is a test notification from RipperOS.',
         silent: true
       })
     } finally {
@@ -114,8 +114,8 @@ describe('registerNotificationHandlers', () => {
     const handler = getDispatchHandler()
     expect(await handler({}, { source: 'test' })).toEqual({ delivered: true })
     expect(notificationCtorMock).toHaveBeenCalledWith({
-      title: 'Orca notifications are on',
-      body: 'This is a test notification from Orca.',
+      title: 'RipperOS notifications are on',
+      body: 'This is a test notification from RipperOS.',
       silent: true
     })
   })

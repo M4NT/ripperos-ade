@@ -32,7 +32,7 @@ export function renderGeminiAccountsSection(model: AccountsPaneSectionModel): Re
         )}
         description={translate(
           'auto.components.settings.AccountsPane.d676c41fc6',
-          'Extracts OAuth credentials from your local Gemini CLI installation to authenticate with Google. This uses credentials issued to the Gemini CLI app, not Orca. May break if Google updates the CLI. Use at your own risk.'
+          'Extracts OAuth credentials from your local Gemini CLI installation to authenticate with Google. This uses credentials issued to the Gemini CLI app, not RipperOS. May break if Google updates the CLI. Use at your own risk.'
         )}
         keywords={[
           'gemini',
@@ -55,7 +55,7 @@ export function renderGeminiAccountsSection(model: AccountsPaneSectionModel): Re
           <p className="text-xs text-muted-foreground">
             {translate(
               'auto.components.settings.AccountsPane.c2aee76420',
-              'Extracts OAuth credentials from your local Gemini CLI installation to authenticate with Google for {{value0}}. This uses credentials issued to the Gemini CLI app, not Orca. May break if Google updates the CLI. Use at your own risk.',
+              'Extracts OAuth credentials from your local Gemini CLI installation to authenticate with Google for {{value0}}. This uses credentials issued to the Gemini CLI app, not RipperOS. May break if Google updates the CLI. Use at your own risk.',
               { value0: localAccountRuntimeSentenceLabel }
             )}
           </p>
@@ -102,7 +102,7 @@ export function renderOpenCodeAccountsSection(model: AccountsPaneSectionModel): 
         )}
         description={translate(
           'auto.components.settings.AccountsPane.opencodeGo.apiKey.description',
-          'Optional override. Orca otherwise uses the key OpenCode saved when you ran /connect, then OPENCODE_API_KEY.'
+          'Optional override. RipperOS otherwise uses the key OpenCode saved when you ran /connect, then OPENCODE_API_KEY.'
         )}
         keywords={['opencode', 'go', 'api', 'key', 'connect', 'rate limit', 'status bar']}
         className="space-y-2"

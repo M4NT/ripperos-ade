@@ -149,7 +149,7 @@ export function WorktreeCardHeader({
                     )
                   : translate(
                       'auto.components.sidebar.WorktreeCard.runtimeHostProject',
-                      'Project on Orca server'
+                      'Project on RipperOS server'
                     )}
             </TooltipContent>
           </Tooltip>

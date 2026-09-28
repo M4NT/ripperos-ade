@@ -36,7 +36,7 @@ export class CliCommandInspection extends CliInstallLocation {
               supported: true,
               state: 'stale',
               currentTarget: managedTarget,
-              detail: `${commandPath} contains an older Orca launcher.`
+              detail: `${commandPath} contains an older RipperOS launcher.`
             })
           }
         }
@@ -48,7 +48,7 @@ export class CliCommandInspection extends CliInstallLocation {
           supported: true,
           state: 'conflict',
           currentTarget: null,
-          detail: `${commandPath} exists but is not an Orca symlink.`
+          detail: `${commandPath} exists but is not a RipperOS symlink.`
         })
       }
 
@@ -82,7 +82,7 @@ export class CliCommandInspection extends CliInstallLocation {
           supported: true,
           state: 'not_installed',
           currentTarget: null,
-          detail: `Register ${commandPath} to use Orca from the terminal.`
+          detail: `Register ${commandPath} to use RipperOS from the terminal.`
         })
       }
       throw error
@@ -181,7 +181,7 @@ export class CliCommandInspection extends CliInstallLocation {
           supported: true,
           state: 'conflict',
           currentTarget: null,
-          detail: `${commandPath} exists but is not an Orca launcher script.`
+          detail: `${commandPath} exists but is not a RipperOS launcher script.`
         })
       }
 
@@ -220,7 +220,7 @@ export class CliCommandInspection extends CliInstallLocation {
           supported: true,
           state: 'not_installed',
           currentTarget: null,
-          detail: `Register ${commandPath} to use Orca from Command Prompt or PowerShell.`
+          detail: `Register ${commandPath} to use RipperOS from Command Prompt or PowerShell.`
         })
       }
       throw error

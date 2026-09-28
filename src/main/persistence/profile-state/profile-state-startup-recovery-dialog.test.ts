@@ -21,10 +21,10 @@ describe('profile state startup recovery dialog', () => {
       buttons: ['Copy recovery command', 'Quit'],
       defaultId: 1,
       cancelId: 1,
-      title: 'Orca profile state cannot be opened',
-      message: 'Orca cannot safely open this profile.',
+      title: 'RipperOS profile state cannot be opened',
+      message: 'RipperOS cannot safely open this profile.',
       detail:
-        'SQLite state is unreadable.\nSQLite path: /tmp/profile-state.db\n\nCopy the recovery command, then run it after Orca closes.'
+        'SQLite state is unreadable.\nSQLite path: /tmp/profile-state.db\n\nCopy the recovery command, then run it after RipperOS closes.'
     })
     expect(copyToClipboard).toHaveBeenCalledWith('orca profile state exports')
   })
@@ -59,7 +59,7 @@ describe('profile state startup recovery dialog', () => {
         defaultId: 0,
         cancelId: 0,
         detail:
-          'both profile authorities are present\n\nQuit Orca and resolve the profile-state authority before retrying.'
+          'both profile authorities are present\n\nQuit RipperOS and resolve the profile-state authority before retrying.'
       })
     )
     expect(copyToClipboard).not.toHaveBeenCalled()

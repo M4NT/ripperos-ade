@@ -93,7 +93,7 @@ export class CliInstaller extends CliPathRegistration {
         ? {
             ...inspectedStatus,
             state: 'stale' as const,
-            detail: `${spec.commandPath} does not point to the current Orca AppImage payload.`
+            detail: `${spec.commandPath} does not point to the current RipperOS AppImage payload.`
           }
         : inspectedStatus
     const pathDirectory = dirname(spec.commandPath)

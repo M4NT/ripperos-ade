@@ -261,7 +261,7 @@ function BitbucketCardNote(props: {
       <p className="text-xs text-muted-foreground">
         {translate(
           'auto.components.settings.bitbucket.integration.card.envManaged',
-          'Configured via environment variables. Unset the ORCA_BITBUCKET_* variables to manage this credential in Orca.'
+          'Configured via environment variables. Unset the ORCA_BITBUCKET_* variables to manage this credential in RipperOS.'
         )}
       </p>
     )
@@ -276,7 +276,7 @@ function BitbucketCardNote(props: {
             )
           : translate(
               'auto.components.settings.token.source.control.integration.cards.6154b02093',
-              'Bitbucket credentials are configured but could not authenticate. Check the token and repository permissions, then restart Orca if environment variables changed.'
+              'Bitbucket credentials are configured but could not authenticate. Check the token and repository permissions, then restart RipperOS if environment variables changed.'
             )}
       </p>
     )
@@ -286,7 +286,7 @@ function BitbucketCardNote(props: {
       <p className="text-xs text-muted-foreground">
         {translate(
           'auto.components.settings.bitbucket.integration.card.storedCredential',
-          'Saved in Orca on this machine. ORCA_BITBUCKET_* environment variables take precedence when set.'
+          'Saved in RipperOS on this machine. ORCA_BITBUCKET_* environment variables take precedence when set.'
         )}
       </p>
     )

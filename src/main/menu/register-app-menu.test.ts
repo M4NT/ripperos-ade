@@ -24,7 +24,7 @@ vi.mock('electron', () => ({
     sendActionToFirstResponder: sendActionToFirstResponderMock
   },
   app: {
-    name: 'Orca'
+    name: 'RipperOS'
   },
   webContents: {
     getFocusedWebContents: getFocusedWebContentsMock
@@ -78,7 +78,7 @@ describe('registerAppMenu', () => {
       getKeybindings: () => ({ 'app.settings': ['Mod+Comma'] })
     })
 
-    const submenu = getSubmenu(getTemplate(), isMac ? 'Orca' : 'File')
+    const submenu = getSubmenu(getTemplate(), isMac ? 'RipperOS' : 'File')
     expect(submenu).toEqual(
       expect.arrayContaining([
         expect.objectContaining({ label: `Settings\t${isMac ? '⌘,' : 'Ctrl+,'}` })
@@ -178,7 +178,7 @@ describe('registerAppMenu', () => {
     // Why: Check for Updates lives under the app-name menu on macOS and
     // under Help on Windows/Linux. The click behavior must be identical
     // either way.
-    const parentLabel = isMac ? 'Orca' : 'Help'
+    const parentLabel = isMac ? 'RipperOS' : 'Help'
     const item = getSubmenu(getTemplate(), parentLabel).find(
       (entry) => entry.label === 'Check for Updates...'
     )
@@ -249,7 +249,7 @@ describe('registerAppMenu', () => {
   // Why: pin the platform on every case — CI runs this suite on Linux only, so an
   // unpinned test leaves the other platforms' branches entirely uncovered.
   it.each(['darwin', 'linux', 'win32'] as const)(
-    'routes Edit > Paste through Orca coordinated paste ownership on %s',
+    'routes Edit > Paste through RipperOS coordinated paste ownership on %s',
     (platform) => {
       vi.spyOn(process, 'platform', 'get').mockReturnValue(platform)
       const send = vi.fn()
@@ -314,7 +314,7 @@ describe('registerAppMenu', () => {
   })
 
   it.each(['darwin', 'linux', 'win32'] as const)(
-    'routes Edit selection actions through the focused Orca window on %s',
+    'routes Edit selection actions through the focused RipperOS window on %s',
     (platform) => {
       vi.spyOn(process, 'platform', 'get').mockReturnValue(platform)
       const send = vi.fn()
@@ -388,10 +388,10 @@ describe('registerAppMenu', () => {
     registerAppMenu(buildMenuOptions())
 
     const template = getTemplate()
-    // Why: no redundant app-named "Orca" menu should exist on non-mac — the
+    // Why: no redundant app-named "RipperOS" menu should exist on non-mac — the
     // app-menu contents (Settings, Exit, Check for Updates, About) have been
     // redistributed so users see them in File / Help instead.
-    expect(template.find((item) => item.label === 'Orca')).toBeUndefined()
+    expect(template.find((item) => item.label === 'RipperOS')).toBeUndefined()
 
     const fileLabels = getSubmenu(template, 'File').map((item) => item.label)
     expect(fileLabels).not.toContain(`Export as PDF...\t${isMac ? '⌘⇧E' : 'Ctrl+Shift+E'}`)
@@ -402,8 +402,8 @@ describe('registerAppMenu', () => {
     expect(helpLabels).toEqual(
       expect.arrayContaining([
         'Report Crash...',
-        'Getting Started with Orca',
-        'Explore Orca',
+        'Getting Started with RipperOS',
+        'Explore RipperOS',
         'Check for Updates...'
       ])
     )
@@ -413,7 +413,7 @@ describe('registerAppMenu', () => {
     registerAppMenu(buildMenuOptions())
 
     const template = getTemplate()
-    const appSubmenu = getSubmenu(template, 'Orca')
+    const appSubmenu = getSubmenu(template, 'RipperOS')
     const appLabels = appSubmenu.map((item) => item.label)
     expect(appLabels).toEqual(expect.arrayContaining(['Check for Updates...', 'Settings']))
     // Why: on macOS File should NOT duplicate Settings/Exit — those live in
@@ -423,17 +423,17 @@ describe('registerAppMenu', () => {
     expect(helpLabels).toEqual([
       'Report Crash...',
       undefined,
-      'Explore Orca',
-      'Getting Started with Orca'
+      'Explore RipperOS',
+      'Getting Started with RipperOS'
     ])
   })
 
-  it('routes Getting Started with Orca through its callback', () => {
+  it('routes Getting Started with RipperOS through its callback', () => {
     const options = buildMenuOptions()
     registerAppMenu(options)
 
     const setupGuideItem = getSubmenu(getTemplate(), 'Help').find(
-      (entry) => entry.label === 'Getting Started with Orca'
+      (entry) => entry.label === 'Getting Started with RipperOS'
     )
     expect(setupGuideItem?.accelerator).toBeUndefined()
 
@@ -449,7 +449,7 @@ describe('registerAppMenu', () => {
     registerAppMenu(options)
 
     const featureTourItem = getSubmenu(getTemplate(), 'Help').find(
-      (entry) => entry.label === 'Explore Orca'
+      (entry) => entry.label === 'Explore RipperOS'
     )
     expect(featureTourItem?.accelerator).toBeUndefined()
 
@@ -502,7 +502,9 @@ describe('registerAppMenu', () => {
     expect(automationsItem?.type).toBe('checkbox')
     expect(automationsItem?.checked).toBe(false)
 
-    const mobileItem = appearanceSubmenu.find((item) => item.label === 'Show Orca Mobile Button')
+    const mobileItem = appearanceSubmenu.find(
+      (item) => item.label === 'Show RipperOS Mobile Button'
+    )
     expect(mobileItem?.type).toBe('checkbox')
     expect(mobileItem?.checked).toBe(true)
 
@@ -528,7 +530,7 @@ describe('registerAppMenu', () => {
       .find((item) => item.label === 'Show Automations Button')
       ?.click?.({} as never, {} as never, {} as never)
     appearanceSubmenu
-      .find((item) => item.label === 'Show Orca Mobile Button')
+      .find((item) => item.label === 'Show RipperOS Mobile Button')
       ?.click?.({} as never, {} as never, {} as never)
     appearanceSubmenu
       .find((item) => item.label === 'Show Titlebar App Name')

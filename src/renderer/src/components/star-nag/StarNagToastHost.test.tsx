@@ -125,7 +125,7 @@ describe('StarNagToastHost', () => {
 
     expect(toastContainer.textContent).toContain('Onboarding completed!')
     expect(toastContainer.textContent).toContain(
-      'If you’re enjoying Orca so far, a GitHub star helps other developers discover it.'
+      'If you’re enjoying RipperOS so far, a GitHub star helps other developers discover it.'
     )
     expect(toastContainer.textContent).toContain('Star on GitHub')
     expect((customToastMock.mock.calls[0][1] as CustomToastOptions).dismissible).toBe(false)
@@ -159,7 +159,7 @@ describe('StarNagToastHost', () => {
       button?.dispatchEvent(new MouseEvent('click', { bubbles: true }))
     })
 
-    expect(shell.openUrl).toHaveBeenCalledWith('https://github.com/stablyai/orca')
+    expect(shell.openUrl).toHaveBeenCalledWith('https://github.com/M4NT/ripperos-ade')
     expect(starNag.openWeb).toHaveBeenCalledTimes(1)
     expect(starNag.starOrca).not.toHaveBeenCalled()
     expect(toastContainer.textContent).toContain('GitHub opened')

@@ -89,7 +89,7 @@ export function SkillInstallDialog({
       setError(
         translate(
           'auto.components.skills.install.enterShareLink',
-          'Enter an Orca skill share link.'
+          'Enter a RipperOS skill share link.'
         )
       )
       return
@@ -214,7 +214,7 @@ export function SkillInstallDialog({
           operation.status === 'reconnect-required'
             ? translate(
                 'auto.components.skills.install.reconnectBeforeInstalling',
-                'Reconnect your Orca account before installing.'
+                'Reconnect your RipperOS account before installing.'
               )
             : operation.message
         )
@@ -229,7 +229,7 @@ export function SkillInstallDialog({
       setError(
         translate(
           'auto.components.skills.install.requestedVersionVerificationFailed',
-          'Installation failed before Orca could verify the requested version.'
+          'Installation failed before RipperOS could verify the requested version.'
         )
       )
     } finally {

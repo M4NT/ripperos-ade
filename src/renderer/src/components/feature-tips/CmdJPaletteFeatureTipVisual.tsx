@@ -193,7 +193,7 @@ export function CmdJPaletteFeatureTipVisual(): JSX.Element {
                   {result.status === 'done' ? (
                     <span className="size-2.5 rounded-full bg-emerald-500" aria-hidden="true" />
                   ) : (
-                    // Why: this tip can stay mounted while Orca is idle; mirror
+                    // Why: this tip can stay mounted while RipperOS is idle; mirror
                     // the sidebar's static working ring instead of spinning.
                     <span className="block size-2.5 rounded-full border-[1.5px] border-yellow-500 bg-yellow-500/15" />
                   )}

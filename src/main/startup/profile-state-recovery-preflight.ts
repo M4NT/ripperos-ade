@@ -75,9 +75,9 @@ function runDesktopRecovery(argv: readonly string[]): void {
       dialog.showMessageBox({
         type: 'error',
         buttons: ['Quit'],
-        title: 'Orca profile state was not changed',
-        message: 'Orca could not apply the selected profile state.',
-        detail: `${response.message}\n\nReopen Orca to choose again.`
+        title: 'RipperOS profile state was not changed',
+        message: 'RipperOS could not apply the selected profile state.',
+        detail: `${response.message}\n\nReopen RipperOS to choose again.`
       })
     )
     .catch((error: unknown) => console.warn('[profile-state] Recovery error dialog failed:', error))

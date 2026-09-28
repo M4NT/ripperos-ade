@@ -29,9 +29,9 @@ describe('OrcaProfileSignOutConfirmDialog', () => {
       />
     )
 
-    expect(html).toContain('Sign out of Orca?')
+    expect(html).toContain('Sign out of RipperOS?')
     expect(html).toContain(
-      'Artifacts and Orca Relay will be unavailable until you sign in again. Your local projects and worktrees won&#x27;t be affected.'
+      'Artifacts and RipperOS Relay will be unavailable until you sign in again. Your local projects and worktrees won&#x27;t be affected.'
     )
     expect(html).not.toContain('Personal')
     expect(html).not.toContain('alert-triangle')

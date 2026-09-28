@@ -132,6 +132,6 @@ export function resetBundledRipgrepPathCacheForTests(): void {
 // means a damaged install or security-software block, which a slower partial listing would hide.
 export function bundledRipgrepUnavailableError(): Error {
   return new Error(
-    "Orca's bundled search tool (ripgrep) could not start. Reinstall Orca, or allow it in your security software."
+    "RipperOS's bundled search tool (ripgrep) could not start. Reinstall RipperOS, or allow it in your security software."
   )
 }

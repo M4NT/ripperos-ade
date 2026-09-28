@@ -93,7 +93,7 @@ export function buildUpdateCardErrorModel({
       title: translate('auto.components.UpdateCard.5b309b19f3', "Update Wasn't Installed"),
       summary: translate(
         'auto.components.UpdateCard.092f09fc14',
-        "The installer's publisher doesn't match Orca, so we stopped the update. Don't install this download; check official releases for a corrected version."
+        "The installer's publisher doesn't match RipperOS, so we stopped the update. Don't install this download; check official releases for a corrected version."
       ),
       detail: status.message,
       releaseUrl: getReleaseNotesUrlForVersion(null),

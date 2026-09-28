@@ -150,14 +150,14 @@ export function resolveEnvironment(selector: string): StoredWebRuntimeEnvironmen
   if (environment.compatibleEnvironmentIds?.includes(selector)) {
     return environment
   }
-  throw new Error(`Unknown Orca runtime environment: ${selector}`)
+  throw new Error(`Unknown RipperOS runtime environment: ${selector}`)
 }
 
 export function requireActiveEnvironment(): StoredWebRuntimeEnvironment {
   webRuntimeState.activeEnvironment =
     webRuntimeState.activeEnvironment ?? readStoredWebRuntimeEnvironment()
   if (!webRuntimeState.activeEnvironment) {
-    throw new Error('Pair this web client with an Orca server first.')
+    throw new Error('Pair this web client with a RipperOS server first.')
   }
   return webRuntimeState.activeEnvironment
 }
@@ -170,7 +170,7 @@ export function requireActiveEnvironmentOrNull(): StoredWebRuntimeEnvironment | 
 
 export function assertActiveEnvironment(environmentId: string): void {
   if (requireActiveEnvironment().id !== environmentId) {
-    throw new Error('The paired Orca server changed while the request was in progress.')
+    throw new Error('The paired RipperOS server changed while the request was in progress.')
   }
 }
 

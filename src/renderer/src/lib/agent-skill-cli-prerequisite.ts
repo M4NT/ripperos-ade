@@ -53,7 +53,7 @@ export async function ensureOrcaCliAvailableForAgentSkillTerminal({
         ? error.message
         : translate(
             'auto.lib.agent.skill.cli.prerequisite.8d6eedf97e',
-            'Failed to register the Orca CLI in PATH.'
+            'Failed to register the RipperOS CLI in PATH.'
           )
     )
     return null
@@ -79,14 +79,14 @@ function showCliPrerequisiteWarning(status: CliInstallStatus): void {
     toast.warning(
       translate(
         'auto.lib.agent.skill.cli.prerequisite.2db0bd7515',
-        'Orca CLI registration is unavailable'
+        'RipperOS CLI registration is unavailable'
       ),
       {
         description:
           status.detail ??
           translate(
             'auto.lib.agent.skill.cli.prerequisite.15cbedc3e3',
-            'Install the Orca CLI before running agent skill setup.'
+            'Install the RipperOS CLI before running agent skill setup.'
           )
       }
     )
@@ -97,14 +97,14 @@ function showCliPrerequisiteWarning(status: CliInstallStatus): void {
     toast.warning(
       translate(
         'auto.lib.agent.skill.cli.prerequisite.e99d7dc36f',
-        'Orca CLI registration needs attention'
+        'RipperOS CLI registration needs attention'
       ),
       {
         description:
           status.detail ??
           translate(
             'auto.lib.agent.skill.cli.prerequisite.15cbedc3e3',
-            'Install the Orca CLI before running agent skill setup.'
+            'Install the RipperOS CLI before running agent skill setup.'
           )
       }
     )
@@ -115,7 +115,7 @@ function showCliPrerequisiteWarning(status: CliInstallStatus): void {
     toast.warning(
       translate(
         'auto.lib.agent.skill.cli.prerequisite.windowsPathUnknown',
-        'Orca could not check your Windows user PATH'
+        'RipperOS could not check your Windows user PATH'
       ),
       {
         description:
@@ -135,14 +135,14 @@ function showCliPrerequisiteWarning(status: CliInstallStatus): void {
     toast.warning(
       translate(
         'auto.lib.agent.skill.cli.prerequisite.79371593b0',
-        'Orca CLI is not visible on PATH yet'
+        'RipperOS CLI is not visible on PATH yet'
       ),
       {
         description:
           status.detail ??
           translate(
             'auto.lib.agent.skill.cli.prerequisite.0f116999f1',
-            'Restart your shell or add the Orca CLI directory to PATH before setup.'
+            'Restart your shell or add the RipperOS CLI directory to PATH before setup.'
           )
       }
     )

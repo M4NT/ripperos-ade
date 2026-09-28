@@ -102,7 +102,7 @@ function buildStatus(
       ...base,
       state: 'error',
       managedHooksPresent: false,
-      detail: 'Could not read Orca managed hooks file'
+      detail: 'Could not read RipperOS managed hooks file'
     }
   }
   if (pointer !== managedHooksPath) {
