@@ -1,0 +1,22 @@
+@import "tailwindcss";
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: #f3f2ef;
+  color: #1c1917;
+  font-family: var(--font-sans), "Segoe UI", sans-serif;
+}
+
+.mono {
+  font-family: var(--font-mono), ui-monospace, monospace;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #d6d3d1 transparent;
+}

@@ -21,15 +21,12 @@ it('preserves Linear completion and terminal-state exclusions', () => {
   }
 })
 
-it('preserves verification distinctions and emulator cleanup', () => {
+it('preserves verification distinctions', () => {
   const text = readGuide('computer-use')
   expect(text).toContain('`verified` means the changed value was read back')
   expect(text).toContain('unverified (accessibility action unasserted)')
   expect(text).toContain('unverified (synthetic input)')
   expect(text).toContain('Missing verification metadata is unverified')
-  for (const name of ['orca-emulator', 'orca-emulator-android']) {
-    expect(readGuide(name)).toContain('Run `kill` when you are done')
-  }
 })
 
 it('preserves paid approvals and provision retry authority', () => {

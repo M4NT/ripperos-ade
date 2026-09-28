@@ -8,8 +8,8 @@ const projectDir = resolve(import.meta.dirname, '../..')
 // installable stub projection is checked separately below.
 const guidePath = join(projectDir, 'skill-guides', 'orca-cli.md')
 const stubPath = join(projectDir, 'skills', 'orca-cli', 'SKILL.md')
-// Why: orchestration and orca-emulator also ship hybrid stubs now, so their version-sensitive
-// command guidance lives in the guide sources — read the cross-guide worktree-id contract there.
+// Why: orchestration also ships a hybrid stub now, so its version-sensitive
+// command guidance lives in the guide source — read the cross-guide worktree-id contract there.
 // Why: the worktree-selector rule lives in the orchestration placement reference, not the kernel.
 const orchestrationPlacementPath = join(
   projectDir,
@@ -18,8 +18,6 @@ const orchestrationPlacementPath = join(
   'references',
   'placement-and-remote.md'
 )
-const emulatorSkillPath = join(projectDir, 'skill-guides', 'orca-emulator.md')
-
 function readSkill(path = guidePath) {
   return readFileSync(path, 'utf8')
 }
@@ -132,16 +130,14 @@ describe('orca CLI skill guidance', () => {
   it('requires full worktree ids across bundled agent guidance', () => {
     const cliSkill = readSkill()
     const orchestrationSkill = readSkill(orchestrationPlacementPath)
-    const emulatorSkill = readSkill(emulatorSkillPath)
 
-    for (const skill of [cliSkill, orchestrationSkill, emulatorSkill]) {
+    for (const skill of [cliSkill, orchestrationSkill]) {
       expect(skill).toContain('<repo-id>::<path>')
       expect(skill).toContain('bare repo id')
     }
     expect(cliSkill).toContain('id:<repoId>::<worktreePath>')
     expect(cliSkill).toContain('two-part address')
     expect(orchestrationSkill).toContain('id:<newFullWorktreeId>')
-    expect(emulatorSkill).not.toContain('id:abc123')
   })
 
   it('keeps browser injection guidance narrow and avoids literal secret examples', () => {

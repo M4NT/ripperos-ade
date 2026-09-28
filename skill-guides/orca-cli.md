@@ -245,4 +245,3 @@ This guide covers worktrees, terminals, and handoffs on its own. At a gate below
 | Driving Orca's embedded browser: navigation, snapshots, refs, tabs, concurrent pages, or `browser_*` recoveries | `references/browser.md`          |
 | Creating, editing, running, or inspecting scheduled automations                                                 | `references/automations.md`      |
 | Publishing or revoking an artifact link, or publishing installed skills                                         | `references/publishing.md`       |
-| Mobile emulator taps, gestures, typing, buttons, camera, or permissions                                         | invoke the `orca-emulator` skill |
