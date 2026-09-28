@@ -1,9 +1,9 @@
 {
   "name": "orca",
   "version": "1.4.214",
-  "description": "Next-gen IDE for parallel agentic development",
-  "homepage": "https://github.com/stablyai/orca",
-  "author": "stablyai",
+  "description": "RipperOS ADE: agent development environment where every bot gets its own Linux VM (fork of Orca)",
+  "homepage": "https://github.com/M4NT/ripperos-ade",
+  "author": "M4NT",
   "bin": {
     "orca": "./out/cli/index.js",
     "orca-dev": "./config/scripts/orca-dev.mjs"

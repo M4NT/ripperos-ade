@@ -1,5 +1,6 @@
 import { net } from 'electron'
 import { compareVersions, isValidVersion } from './updater-fallback'
+import { WHATS_NEW_BASE_URL } from '../shared/product-repository'
 
 export type NudgeConfig = {
   id: string
@@ -8,8 +9,11 @@ export type NudgeConfig = {
 }
 
 export async function fetchNudge(): Promise<NudgeConfig | null> {
+  if (!WHATS_NEW_BASE_URL) {
+    return null
+  }
   try {
-    const res = await net.fetch('https://onorca.dev/whats-new/nudge.json', {
+    const res = await net.fetch(`${WHATS_NEW_BASE_URL}/nudge.json`, {
       signal: AbortSignal.timeout(5000)
     })
     if (!res.ok) {

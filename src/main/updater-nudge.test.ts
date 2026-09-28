@@ -8,6 +8,11 @@ vi.mock('electron', () => ({
   net: { fetch: netFetchMock }
 }))
 
+vi.mock('../shared/product-repository', async (importOriginal) => ({
+  ...(await importOriginal<Record<string, unknown>>()),
+  WHATS_NEW_BASE_URL: 'https://whats-new.test'
+}))
+
 import { fetchNudge, versionMatchesRange, shouldApplyNudge } from './updater-nudge'
 
 describe('updater-nudge', () => {

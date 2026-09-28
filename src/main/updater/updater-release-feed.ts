@@ -8,6 +8,7 @@ import type { CheckFailureSource } from './updater-state'
 import type { UpdateCheckVariant } from './updater-types'
 import { ReleaseFeedPreflightError } from './updater-state'
 import { UpdaterInstallExecution } from './updater-install-execution'
+import { PRODUCT_RELEASES_URL } from '../../shared/product-repository'
 
 /** Owns concrete release-feed pinning and the one-shot prerelease fallback. */
 export abstract class UpdaterReleaseFeed extends UpdaterInstallExecution {
@@ -208,7 +209,7 @@ export abstract class UpdaterReleaseFeed extends UpdaterInstallExecution {
     }
     this.clearPrereleaseFallbackContext()
     this.clearPublishingWindowLastGoodCheck()
-    const url = 'https://github.com/stablyai/orca/releases/latest/download'
+    const url = `${PRODUCT_RELEASES_URL}/latest/download`
     console.info(
       `[updater] release feed fallback: current=${currentVersion} includePrerelease=${includePrerelease} → ${url}`
     )

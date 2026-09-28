@@ -25,8 +25,9 @@ import { FEEDBACK_PAYLOAD_TOO_LARGE_STATUS } from '../../../../shared/feedback-i
 import { SidebarFeedbackImageAttachments } from './SidebarFeedbackImageAttachments'
 import { useSidebarFeedbackEnvironmentPrefill } from './use-sidebar-feedback-environment-prefill'
 import { useSidebarFeedbackImages } from './use-sidebar-feedback-images'
+import { PRODUCT_REPO_URL } from '../../../../shared/product-repository'
 
-const GITHUB_ISSUES_URL = 'https://github.com/stablyai/orca/issues/'
+const GITHUB_ISSUES_URL = `${PRODUCT_REPO_URL}/issues/`
 const DISCORD_URL = 'https://discord.gg/fzjDKHxv8Q'
 const X_URL = 'https://x.com/orca_build'
 

@@ -4,13 +4,15 @@ import type {
   FeedbackImageAttachment,
   FeedbackRequestFailure
 } from '../../shared/feedback-submit-contract'
+import { PRODUCT_ISSUES_URL } from '../../shared/product-repository'
+
+export { FEEDBACK_API_URL } from '../../shared/product-repository'
 
 // Why: the production Mac build loads the renderer from a file:// origin, so a
 // cross-origin POST from fetch() triggers a CORS preflight that the feedback
 // endpoint rejects. Electron's net module runs in the main process and is not
 // subject to CORS, so we proxy the submission through IPC. This mirrors the
 // same pattern used by updater-changelog.ts and updater-nudge.ts.
-export const FEEDBACK_API_URL = 'https://www.onorca.dev/v1/feedback'
 const FEEDBACK_REQUEST_TIMEOUT_MS = 10_000
 const DIAGNOSTIC_BUNDLE_CONTENT_TYPE = 'application/x-ndjson'
 
@@ -44,6 +46,9 @@ export async function postFeedback(
   timeoutMs = FEEDBACK_REQUEST_TIMEOUT_MS,
   readResponse?: (response: Response) => Promise<void>
 ): Promise<Response> {
+  if (!url) {
+    throw new Error(`Feedback is not configured for this build. Open an issue at ${PRODUCT_ISSUES_URL}`)
+  }
   const controller = new AbortController()
   // Why: a silent endpoint must not leave feedback IPC pending forever.
   const timeout = setTimeout(() => controller.abort(), timeoutMs)

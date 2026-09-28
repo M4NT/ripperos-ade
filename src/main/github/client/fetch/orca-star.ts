@@ -1,5 +1,6 @@
 import { ghExecFileAsync, acquire, release } from '../../gh-utils'
-export const ORCA_REPO = 'stablyai/orca'
+import { PRODUCT_REPO_SLUG } from '../../../../shared/product-repository'
+export const ORCA_REPO = PRODUCT_REPO_SLUG
 
 /**
  * Deadline for the two star-nag gh calls.
